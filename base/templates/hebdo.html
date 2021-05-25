@@ -1,0 +1,209 @@
+{% extends "template.html" %}
+
+
+{% block title %} Hebdo {% endblock %}
+
+{% block css %}
+<link href="/static/css/article_widget.css" rel="stylesheet"  data-include="">
+<link href="/static/css/hebdo.css" rel="stylesheet"  data-include="">
+<style>
+    .custom-control {
+        padding-left: 2.5rem;
+    }
+    .btn{
+        margin-right: 5px;
+    }
+    .hebdo_actions {
+        right: 0px;
+        position: absolute;
+    }
+    .hebdo_actions > a > i {
+        font-size: 20pt !important;
+        top: 3px;
+    }
+
+    .title_bar {
+        position: relative;
+        width: 100%;
+    }
+</style>
+{% endblock %}b
+
+
+{% block js %}
+<script src="/static/js/article_widget.js" data-include=""></script>
+<script src="/static/js/hebdo.js" data-include=""></script>
+<script>
+    var data_str = '{{data.json|escapejs}}';
+</script>
+{% endblock %}
+
+
+{% block content %}
+{% include "ui/widget/article_widget.html" %}
+
+<div class="modal" tabindex="-1" role="dialog"  id="add-article-modal">
+  <div class="modal-dialog large-modal" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Ajouter un article </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+            {% include "ui/widget/recherche_article.html" %}
+            <div id="add-article-root"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog"  id="info-hebdo-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"  id="alert-title">Informations</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"  id="alert-content">
+      </div>
+        <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col"><b>Propriété</b></th>
+                        <th scope="col"><b>Valeur</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Date de création</b></td>
+                        <td id="prop_creation"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Date de modification</b></td>
+                        <td id="prop_modification"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Identifiant Hebdo</b></td>
+                        <td id="prop_id"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Nombre d'article</b></td>
+                        <td id="prop_article_count"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Nombre de signes</b></td>
+                        <td id="prop_chars"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Nombre de mots</b></td>
+                        <td id="prop_words"></td>
+                    </tr>
+                </tbody>
+            </table>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="hebdo_form">
+<div class="form-group row">
+    <div class="row title_bar">
+        <h1> Hebdo  <a class="btn theme-2" href="/hebdo/new">Nouvel Hebdo</a></h1>
+        <div class="hebdo_actions">
+            <a type="button" class="btn btn-sm fond-color-1 color-4" data-on="show_add_article" title="Ajouter un article">
+                <i class="material-icons selection-action" >add</i>
+            </a>
+            <a type="button" class="btn btn-sm fond-color-1 color-4" onclick="$('#info-hebdo-modal').modal('show')" title="Information sur l'hebdo">
+                <i class="material-icons selection-action" >info</i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+    <div class="form-group row hidden">
+        <input type="text"  data-bind="id:int" value="-1">
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Hebdo n°</label>
+        <div class="col-sm-2">
+            <input type="number"  class="form-control" data-bind="numero:int" data-on="on_update">
+        </div>
+        <label class="col-sm-1 col-form-label">du</label>
+        <div class="col-sm-3">
+            <input type="date"   class="form-control datepicker" data-bind="date_debut:date" data-on="on_start_changed">
+        </div>
+        <label class="col-sm-1 col-form-label ">au</label>
+        <div class="col-sm-3">
+            <input type="date"  class="form-control datepicker"  data-bind="date_fin:date" data-on="on_update">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Commentaires</label>
+        <div class="col-sm-10">
+            <textarea  class="form-control" data-bind="commentaires" data-on="on_update"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Afficher</label>
+        <div class="col-sm-10">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="show_done" data-on="update_visibility" checked>
+                <label class="form-check-label" for="show_done">Les articles déjà fait</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="show_ignore" data-on="update_visibility" checked>
+                <label class="form-check-label" for="show_ignore">Les article à "ne pas faire"</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Actions</label>
+        <div class="col-sm-10">
+            <a class="form-check btn theme-2" data-on="mark_all_done" >Marquer tous "fait"</a>
+            <a class="form-check btn theme-1" data-on="mark_all_to_do">Marquer tous "à faire"</a>
+            <a class="form-check btn theme-1" data-on="auto_add">J'ai de la chance !"</a>
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Triéer par </label>
+        <div class="col-sm-5">
+            <select class="col-sm form-control"  data-on="on_update"  data-bind="sort_col">
+                <option value="date_creation" selected>Date de création</option>
+                <option value="date_modification">Date de dernière modification</option>
+                <option value="priorite">Priorité</option>
+                <option value="date_debut">Date de début de parution</option>
+                <option value="date_fin">Date de fin de parution</option>
+                <option value="titre">Titre</option>
+            </select>
+        </div>
+        <div class="col-sm-5">
+            <select class="col-sm form-control"  data-on="on_update"  data-bind="order">
+                <option value="desc" selected>Décroissant</option>
+                <option value="asc">Croissant</option>
+            </select>
+        </div>
+    </div>
+</form>
+
+<h2>Articles (<span id="prop_article_count_2"></span>)</h2>
+<div id="hebdo-articles-root"></div>
+
+{% endblock %}
+
+

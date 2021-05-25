@@ -1,0 +1,162 @@
+<script>
+class RechercheSimpleForm extends DataBind{
+    constructor(id, manager){
+        super(id);
+        this.manager=manager;
+        var self = this;
+        $('#sq_match').keydown(function (e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                self.on_change();
+                return false;
+            }
+        });
+    }
+
+    on_change(){
+        var query = ""
+        var depuis = parseInt($("[name=radio_depuis]:checked").val())
+        var jusque = parseInt($("[name=radio_jusque]:checked").val())
+        var vd, vj;
+        if(depuis){
+            vd="today-jours("+depuis+")"
+        }else{
+            vd="date(\"01/01/1900\")"
+        }
+        if(depuis){
+            vj="today+jours("+jusque+")"
+        }else{
+            vj="date(\"01/01/2100\")"
+        }
+        query+= ("pub("+vd+","+vj+") et ")
+
+        var prios=[]
+        for(var i=0; i<3; i++){
+            if($("#prio_"+i).is(":checked")) prios.push("priorite="+i)
+        }
+        query+=" ( "+prios.join(" ou ")+" )"
+
+        var match=$("#sq_match").val()
+        if(match && match.length) query+=' et contient("'+match+'")'
+
+
+
+        var obj = {
+            query: query,
+            sort_col: this.fields.sort_col,
+            order: this.fields.order,
+            revision: "latest",
+            archives: "hide_archives"
+        }
+
+        var self = this;
+        API.article_search_query(obj, {
+            success: function(data){
+                self.manager.set(data)
+            }
+        })
+    }
+}
+</script>
+
+<div id="recherche_simple">
+      <div class="card-body">
+        <form>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Afficher depuis</label>
+                <div class="col-sm-10">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radio_depuis" id="depuis_0" value="1" checked>
+                        <label class="form-check-label" for="depuis_0">Aujourd'hui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radio_depuis" id="depuis_1" value="7">
+                        <label class="form-check-label" for="depuis_1">Une semaine</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radio_depuis" id="depuis_2" value="14">
+                        <label class="form-check-label" for="depuis_2">Deux semaines</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radio_depuis" id="depuis_3" value="30">
+                        <label class="form-check-label" for="depuis_3">Un mois</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radio_depuis" id="depuis_4" value="0">
+                        <label class="form-check-label" for="depuis_4">Toujours</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Afficher jusqu'à</label>
+                <div class="col-sm-10">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radio_jusque" id="jusqua_0"  value="1" checked>
+                        <label class="form-check-label" for="jusqua_0">Demain</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radio_jusque" id="jusqua_1" value="7">
+                        <label class="form-check-label" for="jusqua_1">Une semaine</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radio_jusque"  id="jusqua_2" value="14">
+                        <label class="form-check-label" for="jusqua_2">Deux semaines</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radio_jusque" id="jusqua_3" value="30">
+                        <label class="form-check-label" for="jusqua_3">Un mois</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radio_jusque" id="jusqua_4"  value="0">
+                        <label class="form-check-label" for="jusqua_4">Toujours</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Importance</label>
+                <div class="col-sm-10">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="prio_0" value="0" checked>
+                        <label class="form-check-label" for="prio_0">Impératif</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="prio_1" value="1" checked>
+                        <label class="form-check-label" for="prio_1">Important</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="prio_2" value="2" checked>
+                        <label class="form-check-label" for="prio_2">Secondaire</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Termes à rechercher</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="sq_match" placeholder="Rechercher">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Triéer par </label>
+                <div class="col-sm-5">
+                    <select class="col-sm form-control"  data-bind="sort_col">
+                        <option value="date_creation" selected>Date de création</option>
+                        <option value="date_modification">Date de dernière modification</option>
+                        <option value="priorite">Priorité</option>
+                        <option value="date_debut">Date de début de parution</option>
+                        <option value="date_fin">Date de fin de parution</option>
+                        <option value="titre">Titre</option>
+                    </select>
+                </div>
+                <div class="col-sm-5">
+                    <select class="col-sm form-control"  data-bind="order">
+                        <option value="desc" selected>Décroissant</option>
+                        <option value="asc">Croissant</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <a class="btn fond-color-3 color-4" data-on="on_change">Rechercher</a>
+            </div>
+        </form>
+      </div>
+    </div>

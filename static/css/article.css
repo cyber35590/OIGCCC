@@ -1,0 +1,44 @@
+/*
+body {font-family:"Roboto", sans-serif;font-size:14px;line-height:20px;color:#151518;overflow-x:hidden;position:inherit!important;}
+table {width:100%;}
+table td {border:1px solid #3b3b3b;padding:5px;}
+blockquote{font-style:italic !important;}
+h1, .entry-content .fond h1, #secondary.fond h1{font-family:"Roboto", sans-serif;font-size:34px;color:#fff;line-height:37px;text-transform:uppercase;font-weight: 700;}
+h2, .entry-content .fond h2, #secondary.fond h2, .gpoll_wrapper h3.gform_title {font-family:"Roboto", sans-serif;font-size:30px;color:#151518;line-height:28px;border-bottom:1px solid #151518;text-transform:none;padding-bottom:5px;margin:25px 0 15px;font-weight:100;position: relative}
+
+h3, .entry-content .fond h3, #secondary .fond h3, .gpoll_wrapper h2.gsection_title{font-family:"Roboto", sans-serif;font-size:22px;color:#007e94;line-height:22px;text-transform:none;margin:15px 0;font-weight:700}
+h4, .entry-content .fond h4, #secondary .fond h4{font-family:"Roboto", sans-serif;font-size:20px;color:#82c1ab;line-height:22px;margin:15px 0;font-weight:700}
+h1 em, h2 em, h3 em, h4 em, h5 em, h6 em {font-style:normal!important;}
+
+.fond h1, .fond h2, .fond h3, .fond h4 {color:#fff;}
+.fond {padding:10px;color:#fff;margin:10px 0;overflow:hidden;}
+.fond1 {background-color:#82c1ab;}
+.fond2 {background-color:#007e94;}
+.fond3 {background-color:#e94b5e;}
+.fond4 {background-color:#151518;}
+.fond p {color:#fff;}
+.border {padding: 10px; margin: 10px 0;font-size:14px;}
+.border1 {border-left:15px solid #82c1ab;}
+.border2 {border-left:15px solid #007e94;}
+.border3 {border-left:15px solid #e94b5e;}
+.border4 {border-left:15px solid #151518;}
+.puce, li {list-style-type:none;background-repeat:no-repeat;background-position:left 5px;padding-left:20px;}
+.puce-verte {background-image:url('https://www.ville-lhermitage.fr/wp-content/themes/lhermitage/images/PuceContext.png');}
+.puce-noir, ul li {background-image:url('https://www.ville-lhermitage.fr/wp-content/themes/lhermitage/images/Puce1.png');}
+.puce-bleu, ul li ul li {background-image:url('https://www.ville-lhermitage.fr/wp-content/themes/lhermitage/images/Puce2.png');}
+.puce-orange, ul li ul li ul li {background-image:url('https://www.ville-lhermitage.fr/wp-content/themes/lhermitage/images/Puce3.png');}
+.alignleft {float:left;margin:5px 15px 5px 0px;}
+.aligncenter {display:block;margin:5px auto;}
+.alignright {float:right;margin:5px 0px 5px 15px;}
+.alerte {padding:10px;color:#FFF;text-transform:uppercase;background-color:#CE0000;margin:10px 0; }
+a {color:#007e94;text-decoration:underline;}
+a:hover {text-decoration:none; }
+span.highlight {background-color:#82c1ab;color:#151518;padding:0 3px;}
+blockquote:before {background:url('../../noyau/images/core/quotes.png') 0 0 no-repeat;content:"";width:30px;height:30px;display:block;position:absolute;top:0;left:0px;}
+blockquote {margin:2% 0;text-indent:10px;padding:0 50px;position:relative;font-style:italic;}
+blockquote:after {background:url('../../noyau/images/core/quotes.png') -29px 0 no-repeat;content:"";width:30px;height:30px;display:block;position:absolute;bottom:0;right:0px;}
+ol {list-style-type:none;position:relative;padding-left:20px;counter-reset:section;}
+ol li:before {content:counters(section, ".") " ";counter-increment:section;}
+p {color:#151518;margin:0 0 10px 0;}
+ul {padding:0;}
+ul li {line-height:1.5;}*/

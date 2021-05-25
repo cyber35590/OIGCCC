@@ -1,0 +1,51 @@
+{% extends "template.html" %}
+
+
+{% block title %} Recherche d'articles{% endblock %}
+
+{% block css %}
+<link href="/static/css/article_list.css" rel="stylesheet"  data-include="">
+<link href="/static/css/article_widget.css" rel="stylesheet"  data-include="">
+<style>
+ .form-group > a {
+    margin-right: 10px;
+ }
+
+</style>
+
+<style>
+
+
+</style>
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/article_widget.js" data-include=""></script>
+<script src="/static/js/list_articles.js" data-include=""></script>
+<script>
+  var articles;
+  var RSForm;
+  var RAForm;
+
+
+  $(document).ready(function(){
+    articles = new ArticleEntryManager("article-entry-root");
+    RSForm = new RechercheSimpleForm("recherche_simple", articles)
+    RAForm = new RechercheAvanceeForm("recherche_avancée", articles)
+  })
+
+</script>
+{% endblock %}
+
+
+{% block content %}
+  {% include "ui/widget/recherche_article.html" %}
+
+<div>
+    <div id="article-entry-root">
+
+    </div>
+</div>
+{% endblock %}
+
+

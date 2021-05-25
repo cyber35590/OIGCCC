@@ -1,0 +1,73 @@
+.search-results-col > center {
+    font-size: 16pt;
+    font-weight: 650;
+}
+
+.artist-image-short {
+    max-height:96px;
+    max-width:96px;
+    width:96px;
+    height: 96px;
+}
+
+.result-short {
+    background-color: #3333;
+    border-radius: 5px;
+    margin-bottom: 2.5px;
+    margin-top: 2.5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: 5px;
+    width: 100%;
+}
+
+.advanced_search_results_root {
+    margin-left: 0px;
+    padding-left: 0px;
+    margin-top: 20px;
+}
+
+.btn-search-mode {
+    margin-left: 0px;
+    padding: 0px;
+}
+
+.search-mode {
+    display: block;
+    width: 100%;
+}
+
+#advanced-results-prev
+{
+
+}
+
+#advanced-results-prev > i
+{
+    font-size: 48px;
+}
+
+#advanced-results-next
+{
+}
+
+#advanced-results-next > i
+{
+    font-size: 48px;
+    float: right;
+}
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.track-short-track {
+    font-size: 14pt;
+    font-weight: 600;
+}
+
+.album-short-album {
+    font-size: 14pt;
+    font-weight: 600;
+}

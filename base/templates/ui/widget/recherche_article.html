@@ -1,0 +1,44 @@
+
+
+<style>
+    .nav-search-root {
+
+    }
+    .nav-search-root > a {
+        border-color: lightgray ! important;
+        color: black;
+        border: solid;
+        border-width: 1px;
+        border-bottom-width: 0px;
+        border-radius: 0px ! important;
+    }
+
+    .nav-search-root > a:hover {
+    }
+
+    .nav-search-root > .active {
+        color: white !important;
+        background-color: var(--color3) !important;
+    }
+
+    .nav-search-content {
+        border-color: lightgray ! important;
+        border: solid;
+        border-width: 1px;
+        margin-bottom: 20px;
+    }
+    .nav-search-content > div {
+
+    }
+</style>
+
+{% include "ui/widget/article_widget.html" %}
+<h1>Recherche d'articles</h1>
+<nav class="nav nav-pills nav-search-root">
+  <a class="nav-item nav-link active" href="#recherche_simple_root" data-toggle="tab">Recherche simple</a>
+  <a class="nav-item nav-link" href="#recherche_avancee_root" data-toggle="tab">Recherche avancée</a>
+</nav>
+<div class="tab-content nav-search-content">
+  <div class="tab-pane active" id="recherche_simple_root">{% include "ui/widget/recherche_simple.html" %}</div>
+  <div class="tab-pane" id="recherche_avancee_root">{% include "ui/widget/recherche_avancee.html" %}</div>
+</div>

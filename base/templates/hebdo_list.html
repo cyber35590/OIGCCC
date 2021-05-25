@@ -1,0 +1,57 @@
+{% extends "template.html" %}
+
+
+{% block title %} Liste des hebdos {% endblock %}
+
+{% block css %}
+<link href="/static/css/hebdo_list.css" rel="stylesheet"  data-include="">
+<style>
+
+</style>
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/hebdo_list.js" data-include=""></script>
+<script >
+
+
+</script>
+{% endblock %}
+
+
+{% block content %}
+
+
+<h1>Liste des Hedbos <a class="btn theme-2" href="/hebdo/new">Ajouter</a></h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Numéro</th>
+      <th scope="col">Dates</th>
+      <th scope="col">Articles</th>
+      <th scope="col">Mots</th>
+      <th scope="col">Caractères</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody id="hebdo-list-root">
+    {% for hebdo in data %}
+        <tr id="hebdo-entry-{{hebdo.id}}">
+            <th scope="row"><a href="/hebdo/{{hebdo.id}}">{{hebdo.numero}}</a></th>
+            <td><a href="/hebdo/{{hebdo.id}}">{{hebdo.date_debut}} - {{hebdo.date_fin}}</a></td>
+            <td>{{hebdo.articles_count}}</td>
+            <td>{{hebdo.word_count}}</td>
+            <td>{{hebdo.char_count}}</td>
+            <td>
+                <i class="material-icons color-2" onclick="hebdo_edit({{hebdo.id}})">edit</i>
+                <i class="material-icons color-1" onclick="hebdo_delete({{hebdo.id}})">delete</i>
+            </td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+
+

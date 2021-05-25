@@ -1,0 +1,55 @@
+
+<div id="parameters-div">
+    <div class="parameter-section">
+        <h4>Actions</h4>
+        <div class="input-group  mb-3" >
+            <span class="input-group-text">Gestion du serveur</span>
+            <button class="btn fond-color-3 color-4" onclick="Config.server_exit(true)" type="button" >Eteindre (dump)</button>
+            <button class="btn fond-color-1 color-4" onclick="Config.server_exit(false)" type="button" >Eteindre</button>
+            <button class="btn fond-color-2" onclick="Config.server_restart(false)" type="button" >Redémarrer</button>
+        </div>
+    </div>
+    <div class="parameter-section">
+        <h4>Serveur</h4>
+        <a data-template="TI-form-text" data-param="label=Dossier html;name=server.www"></a>
+        <a data-template="TI-form-text" data-param="label=Adresse d'écoute;name=server.address"></a>
+        <a data-template="TI-form-text" data-param="label=Adresse d'écoute;name=server.port;type=number;cast=int"></a>
+        <a data-template="TI-form-checkbox" data-param="label=Debug;name=server.debug;text=Activer le mode debug du serveur web"></a>
+    </div>
+    <div class="parameter-section">
+        <h4>Fichiers générés</h4>
+        <a data-template="TI-form-text" data-param="label=Type de fichier;name=output.extension"></a>
+        <a data-template="TI-form-text" data-param="label=Format de nom;name=output.format"></a>
+        <a data-template="TI-form-text" data-param="label=Dossier de sortie;name=output.dir"></a>
+    </div>
+    <div class="parameter-section">
+        <h4>Outils</h4>
+        <a data-template="TI-form-text" data-param="label=Chemin de FFMPEG;name=utils.ffmpeg"></a>
+    </div>
+    <div class="parameter-section">
+        <h4>Système</h4>
+        <a data-template="TI-form-text" data-param="label=Nombre de thread de travail;name=system.threads;type=number;cast=int"></a>
+    </div>
+    <div class="parameter-section">
+        <h4>Subsonic</h4>
+        <a data-template="TI-form-checkbox" data-param="label=Activer;name=subsonic.enable;text=Activer la prise en charge de subsonic"></a>
+        <a data-template="TI-form-text" data-param="label=URL du serveur;name=subsonic.url;if=subsonic.enable"></a>
+        <a data-template="TI-form-text" data-param="label=Nom d'utilisateur;name=subsonic.user;if=subsonic.enable"></a>
+        <a data-template="TI-form-text" data-param="label=Mot de passe;name=subsonic.password;type=password;if=subsonic.enable"></a>
+        <div class="input-group  mb-3" data-if="subsonic.enable" >
+            <span class="input-group-text">Actions</span>
+            <button class="btn fond-color-3 color-4" onclick="Config.subsonic_test()" type="button" >Tester la connexion</button>
+            <button class="btn fond-color-2" onclick="Config.subsonic_update()" type="button">Mettre à jour la base</button>
+        </div>
+    </div>
+
+    <div class="parameter-section">
+        <h4>Actions</h4>
+        <div class="input-group  mb-3" >
+            <span class="input-group-text">Sauvegarder</span>
+            <button class="btn fond-color-3 color-4" onclick="Config.save()" type="button" >Sauvegarder</button>
+            <button class="btn fond-color-2" onclick="Config.save_and_restart()" type="button" >Sauvegarder et redémarrer</button>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,79 @@
+
+
+<script>
+    class RechercheAvanceeForm extends DataBind{
+
+        constructor(id, manager){
+            super(id);
+            this.manager=manager
+        }
+
+        check_query(){
+            API.article_search_query(this.fields, function(data){
+                console.log("Recevied", data)
+            })
+        }
+
+        send_query(){
+            API.article_search_query(this.fields, {
+                success: function(data){
+                    articles.set(data)
+
+                }
+            })
+        }
+
+    }
+</script>
+
+<div id="recherche_avancée">
+      <div class="card-body">
+        <form>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Requête</label>
+                <div class="col-sm-10">
+                    <textarea  class="form-control" data-bind="query"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Triéer par </label>
+                <div class="col-sm-5">
+                    <select class="col-sm form-control"  data-bind="sort_col">
+                        <option value="date_creation" selected>Date de création</option>
+                        <option value="date_modification">Date de dernière modification</option>
+                        <option value="priorite">Priorité</option>
+                        <option value="date_debut">Date de début de parution</option>
+                        <option value="date_fin">Date de fin de parution</option>
+                        <option value="titre">Titre</option>
+                    </select>
+                </div>
+                <div class="col-sm-5">
+                    <select class="col-sm form-control"  data-bind="order">
+                        <option value="desc" selected>Décroissant</option>
+                        <option value="asc">Croissant</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Filtre</label>
+                <div class="col-sm-5">
+                    <select class="col-sm form-control"  data-bind="archives">
+                        <option value="hide_archives" selected>Cacher les archives</option>
+                        <option value="only_archives" >Afficher uniquement les archives</option>
+                        <option value="all" >Tout afficher</option>
+                    </select>
+                </div>
+                <div class="col-sm-5">
+                    <select class="col-sm form-control"  data-bind="revision">
+                        <option value="latest" selected>Uniquement la dernière version</option>
+                        <option value="all">Toutes les versions</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <a class="btn fond-color-2" data-on="check_query">Vérifier</a>
+                <a class="btn fond-color-3 color-4" data-on="send_query">Valider</a>
+            </div>
+        </form>
+      </div>
+    </div>
