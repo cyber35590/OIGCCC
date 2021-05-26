@@ -135,7 +135,7 @@ p {
 
 @media screen {
     .page {
-        background-color: #aaa;
+        border: 1px solid #aaa;
     }
 }
 

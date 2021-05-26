@@ -62,6 +62,34 @@
   </div>
 </div>
 
+<div class="modal" tabindex="-1" role="dialog"  id="template-maquette">
+  <div class="modal-dialog large-modal" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Ajouter un article </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+            <div class="row">
+                <select class="form-select col-sm-6" id="maquette-select">
+                </select>
+                <a class="btn theme-1 col-sm-2" onclick="maquette_edit($('#maquette-select').val())">Editer</a>
+                <a class="btn theme-2 col-sm-3" onclick="maquette_dup($('#maquette-select').val())">Editer une nouvelle version</a>
+            </div>
+            <div class="row">
+                <a class="btn theme-3 col-sm-3" onclick="maquette_dup()">Nouvelle maquette</a>
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <div class="modal" tabindex="-1" role="dialog"  id="info-hebdo-modal">
@@ -175,7 +203,8 @@
         <div class="col-sm-10">
             <a class="form-check btn theme-2" data-on="mark_all_done" >Marquer tous "fait"</a>
             <a class="form-check btn theme-1" data-on="mark_all_to_do">Marquer tous "à faire"</a>
-            <a class="form-check btn theme-1" data-on="auto_add">J'ai de la chance !"</a>
+            <a class="form-check btn theme-1" data-on="auto_add">J'ai de la chance !</a>
+            <a class="form-check btn theme-3" onclick="show_maquettes()">Maquetter</a>
         </div>
     </div>
 

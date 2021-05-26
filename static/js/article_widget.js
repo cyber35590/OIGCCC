@@ -86,11 +86,19 @@ class ArticleEntry extends EntryBase {
     }
 
     delete_revision(){
-        alert("delete_revision")
+        var self = this;
+        API.article_remove(this.data.id, true, function(){
+            toast("Article supprimé")
+            self._root.remove();
+        })
     }
 
     delete_article(){
-        alert("delete_article")
+        var self = this;
+        API.article_remove(this.data.id, false, function(){
+            toast("Article supprimé");
+            self._root.remove();
+        })
     }
 }
 

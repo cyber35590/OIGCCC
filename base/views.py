@@ -66,9 +66,6 @@ def list_articles(request : HttpRequest):
 def hebdo_test(request : HttpRequest):
     return render(request, "hebdo/hebdo.html", {})
 
-def hebdo_make(request : HttpRequest):
-    return render(request, "hebdo_gen.html", {})
-
 def hebdo_list(request : HttpRequest):
     return render(request, "hebdo_list.html", { "data": Hebdo.objects.all().order_by("-numero") })
 
@@ -80,5 +77,22 @@ def hebdo_edit(request : HttpRequest, id : int):
     hebdo = get_object_or_404(Hebdo, pk=id)
     return render(request, "hebdo.html", {"data": hebdo})
 
+def hebdo_make(request : HttpRequest, id : int, mid : int):
+    hebdo =  Hebdo.objects.get(pk=id);
+    return render(request, "hebdo_gen.html", {
+        "hebdo" : hebdo,
+        "maquette" : Maquette.objects.get(pk=mid),
+        "articles" : json.dumps(list(map(lambda x: x.dict(), hebdo.articles.all())))
+    })
 
+def hebdo_make_new(request : HttpRequest, id : int):
+    maq = new_maquette(id)
+    hebdo =  Hebdo.objects.get(pk=id);
+    maq.save()
+
+    return render(request, "hebdo_gen.html", {
+        "hebdo" : hebdo,
+        "maquette" : maq,
+        "articles" : json.dumps(list(map(lambda x: x.dict(), hebdo.articles.all())))
+    })
 

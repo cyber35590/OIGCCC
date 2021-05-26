@@ -7,7 +7,7 @@ from datetime import datetime, date
 from django.db.models import Q
 
 from django.shortcuts import render
-from .models import Article, Fichier, Hebdo
+from .models import Article, Fichier, Hebdo, Maquette
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
 import json
@@ -91,6 +91,14 @@ def default_article():
     return Article.objects.create(articleid=aid, date_creation=now, date_modification=now,
                                   priorite=0, valid=False, latest=True, archived=False)
 
+
+def new_maquette(hid):
+    now = datetime.now()
+    revision = sql_value("select max(revision) from base_maquette where hebdo_id=%d" % hid)
+    if not revision: revision=1;
+
+    return Maquette.objects.create(revision=revision, date_creation=now, date_modification=now,
+                                hebdo=Hebdo.objects.get(pk=hid), latest=True)
 
 
 def jsonresponse(data, code=200, appcode=0, msg="Success"):
@@ -260,3 +268,42 @@ def api_hebdo_delete(request : HttpRequest, id : int):
     hebdo.delete()
     return jsonresponse(None)
 
+
+
+@csrf_exempt
+def api_hebdo_maquette_list(request : HttpRequest, id : int):
+    maqs = Maquette.objects.raw("select * from base_maquette where hebdo_id=%d order by revision desc"%id)
+    maqs = list(map(lambda x: x.dict(), maqs))
+    return jsonresponse(maqs)
+
+
+
+@csrf_exempt
+def api_hebdo_maquette_new(request : HttpRequest, id : int):
+    maq = new_maquette(id)
+    maq.save()
+    return jsonresponse(maq.dict())
+
+
+@csrf_exempt
+def api_hebdo_maquette(request : HttpRequest, id : int, mid : int):
+    maq = get_object_or_404(Maquette, pk=mid)
+    if request.method=="GET":
+        return jsonresponse(maq.dict())
+    if request.method=="POST":
+        maq.set(json.loads(request.body))
+        maq.save()
+        return jsonresponse(maq.dict())
+
+@csrf_exempt
+def api_hebdo_maquette_duplicate(request : HttpRequest, id : int, mid : int):
+    sql_execute("update base_maquette set latest=false where hebdo_id=%d"%id)
+    maq = new_maquette(id)
+    return jsonresponse(maq.dict())
+
+
+@csrf_exempt
+def api_hebdo_maquette_delete(request : HttpRequest, id : int, mid : int):
+    maq = get_object_or_404(Maquette, pk=mid)
+    maq.delete()
+    return jsonresponse(None)

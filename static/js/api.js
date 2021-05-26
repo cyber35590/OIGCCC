@@ -219,6 +219,30 @@ class OigccAPI
         return this.ajax_get("hebdo/"+id+"/remove/"+article, opt);
     }
 
+    maquette_new(hebdoid, opt){
+        return this.ajax_get("hebdo/"+id+"/maquette/new", opt);
+    }
+
+    maquette_list(hebdoid, opt){
+        return this.ajax_get("hebdo/"+hebdoid+"/maquette/list", opt);
+    }
+
+    maquette_get(hebdoid, mid, opt){
+        return this.ajax_get("hebdo/"+hebdoid+"/maquette/"+mid, opt);
+    }
+
+    maquette_set(hebdoid, mid, data, opt){
+        return this.ajax_post("hebdo/"+hebdoid+"/maquette/"+mid, data, opt);
+    }
+
+    maquette_duplicate(hebdoid, mid, opt){
+        return this.ajax_get("hebdo/"+hebdoid+"/maquette/"+mid+"/duplicate", opt);
+    }
+
+    maquette_delete(hebdoid, mid, opt){
+        return this.ajax_get("hebdo/"+hebdoid+"/maquette/"+mid+"/delete", opt);
+    }
+
 
 
     /*

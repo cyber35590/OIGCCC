@@ -259,6 +259,32 @@ class _HebdoForm extends DataBind {
 }
 
 
+function show_maquettes(){
+    $("#template-maquette").modal("show");
+    API.maquette_list(HebdoForm.data.id, function(d){
+        var elem = $("#maquette-select")
+        elem.empty();
+        for(var i in d){
+            var id = d[i].id;
+            elem.append($('<option value="'+id+'">Version '+id+'</option>'))
+        }
+    })
+}
+
+function maquette_edit(id){
+    location.href="/hebdo/"+HebdoForm.data.id+"/maquette/"+id;
+}
+
+function maquette_dup(id=null){
+    if(id){
+        API.maquette_duplicate(HebdoForm.data.id, id, function(e){
+            location.href="/hebdo/"+HebdoForm.data.id+"/maquette/"+e.id;
+        });
+    }else{
+        location.href="/hebdo/"+HebdoForm.data.id+"/maquette/new";
+    }
+}
+
 
 var HebdoForm;
 $(document).ready(function(){

@@ -45,12 +45,12 @@ function date_to_std_date(d){
     if(d.length<2) d="0"+d;
     return y+"-"+m+"-"+d
 }
-
+var mois = ["", "janvier", "février", "mars", "avril", "mai", "juin",
+                    "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 function date_to_phrase(date){
     if(!date || date=="-") return "---"
     date = date.split("/")
-    var mois = ["", "janvier", "février", "mars", "avril", "mai", "juin",
-                    "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+
     return parseInt(date[0])+" "+mois[parseInt(date[1])]+" "+date[2]
 }
 

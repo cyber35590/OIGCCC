@@ -1,13 +1,13 @@
 
 <!--
 {
-  content: le contenu html du calendrier
+  contenu: le contenu html du calendrier
 }
 -->
 <template id="template-hebdo-cal">
     <div class="article article-calendrier">
       <center><img src="/static/hebdo/img/cal.png"></center>
-      <p>[[content]]</p>
+        <p>[[{contenu}]]</p>
     </div>
 </template>
 
@@ -24,7 +24,7 @@
     <div class="article article-[[n_col]]-col [[style]]">
         <h1>[[titre]]</h1>
         <h2>[[sous_titre]]</h2>
-        <p>[[contenu]]</p>
+        <p>[[{contenu}]]</p>
     </div>
 </template>
 

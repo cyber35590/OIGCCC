@@ -11,7 +11,8 @@ urlpatterns = [
     path('hebdo/<int:id>', views.hebdo_edit),
     path('hebdo/new', views.hebdo_new),
     path('hebdo/test', views.hebdo_test),
-    path('hebdo/make', views.hebdo_make),
+    path('hebdo/<int:id>/maquette/new', views.hebdo_make_new),
+    path('hebdo/<int:id>/maquette/<int:mid>', views.hebdo_make),
 
     path('api/article/<int:id>/<str:key>/<str:val>', views.api_article_set),
     path('api/article/<int:id>/<str:key>', views.api_article_get),
@@ -26,4 +27,9 @@ urlpatterns = [
     path('api/hebdo/<int:id>/add', views.api_hebdo_add_batch),
     path('api/hebdo/<int:id>/remove/<int:article>', views.api_hebdo_remove_article),
     path('api/hebdo/<int:id>/delete', views.api_hebdo_delete),
+    path('api/hebdo/<int:id>/maquette/new', views.api_hebdo_maquette_new),
+    path('api/hebdo/<int:id>/maquette/list', views.api_hebdo_maquette_list),
+    path('api/hebdo/<int:id>/maquette/<int:mid>', views.api_hebdo_maquette),
+    path('api/hebdo/<int:id>/maquette/<int:mid>/duplicate', views.api_hebdo_maquette_duplicate),
+    path('api/hebdo/<int:id>/maquette/<int:mid>/delete', views.api_hebdo_maquette_delete),
 ]

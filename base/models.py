@@ -8,7 +8,24 @@ from django.utils import timezone
 # Create your models here.
 from django.core import serializers
 
-class Fichier(models.Model):
+class Jsonable:
+    def dict(self):
+        #js= serializers.serialize('json', [self])
+        js = {}
+        for k in self.__dict__.keys():
+            if not k.startswith("_"):
+                o=getattr(self, k)
+                if isinstance(o, datetime.datetime):
+                    o = o.timestamp()
+                if isinstance(o, datetime.date):
+                    o = o.isoformat()
+                js[k] = o
+        return js
+
+    def json(self):
+        return json.dumps(self.dict())
+
+class Fichier(models.Model, Jsonable):
     titre = models.CharField(max_length=1024)
     mime = models.CharField(max_length=1024)
     chemin = models.CharField(max_length=1024*2)
@@ -17,8 +34,7 @@ class Fichier(models.Model):
 
 
 
-
-class Article(models.Model):
+class Article(models.Model, Jsonable):
     class PubStatus(models.IntegerChoices):
         IGNORE = 0
         A_FAIRE = 2
@@ -64,36 +80,13 @@ class Article(models.Model):
         self.archived = data["archived"] if "archived" in data else self.archived
         self.date_modification=datetime.datetime.now()
         s = (self.titre+" ") if self.titre else ""
-        s += (self.sous_titre+" ") if self.titre else ""
-        s += (self.contenu+" ") if self.titre else ""
+        s += (self.sous_titre+" ") if self.sous_titre else ""
+        s += (self.contenu+" ") if self.contenu else ""
         self.char_count, self.word_count = text_stat(s)
         self.valid=True
 
 
-    def short_dict(self):
-        fields = ["titre", "date_debut", "date_fin", "priorite", "date_modification", "date_creation", "char_count", "word_count", "articleid", "revision"]
-        js = {}
-        for k in fields:
-            js[k] = getattr(self, k)
-        js["priorite"] = ["Impératif", "Important", "Secondaire"][js["priorite"]]
-        return js
 
-
-    def dict(self):
-        #js= serializers.serialize('json', [self])
-        js = {}
-        for k in self.__dict__.keys():
-            if not k.startswith("_"):
-                o=getattr(self, k)
-                if isinstance(o, datetime.datetime):
-                    o = o.timestamp()
-                if isinstance(o, datetime.date):
-                    o = o.isoformat()
-                js[k] = o
-        return js
-
-    def json(self):
-        return json.dumps(self.dict())
 
     def pubs(self):
         return [{"name": "Site Web", "data":self.pub_web, "id":"web"},
@@ -102,7 +95,7 @@ class Article(models.Model):
                 {"name": "Panneau", "data":self.pub_panneau, "id":"panneau"},
                 {"name": "Facebook", "data":self.pub_fb, "id":"fb"}]
 
-class Hebdo(models.Model):
+class Hebdo(models.Model, Jsonable):
     numero = models.IntegerField(null=True, blank=True, default=1)
     date_creation = models.DateTimeField()
     date_modification = models.DateTimeField()
@@ -115,22 +108,10 @@ class Hebdo(models.Model):
     word_count = models.IntegerField(default=0)
 
     def dict(self):
-        #js= serializers.serialize('json', [self])
-        js = {}
-        for k in self.__dict__.keys():
-            if not k.startswith("_"):
-                o=getattr(self, k)
-                if isinstance(o, datetime.datetime):
-                    o = o.timestamp()
-                if isinstance(o, datetime.date):
-                    o = o.isoformat()
-                js[k] = o
+        js = super().dict()
         js["articles"]=list(self.articles.all().values_list("id",flat=True))
+
         return js
-
-
-    def json(self):
-        return json.dumps(self.dict())
 
     def update_meta(self):
         self.articles_count = 0
@@ -151,3 +132,25 @@ class Hebdo(models.Model):
         self.valid=True
 
 
+class Maquette(models.Model, Jsonable):
+
+    revision = models.IntegerField()
+    date_creation = models.DateTimeField()
+    date_modification = models.DateTimeField()
+    hebdo = models.ForeignKey(Hebdo, on_delete=models.CASCADE)
+    latest = models.BooleanField(blank=True, null=True, default=False)
+    flags=models.TextField(blank=True, null=True, default="")
+
+    #les propriétés pour le placement automatique
+    config_placement = models.TextField(blank=True, null=True, default=None)
+    #le plcaement effectif en cours
+    placement = models.TextField(blank=True, null=True, default=None)
+    rendu = models.TextField(blank=True, null=True, default=None)
+
+
+    def set(self, data):
+        self.flags = data["flags"]
+        self.config_placement = data["config_placement"]
+        self.placement = data["placement"]
+        self.rendu = data["rendu"]
+        self.date_modification=datetime.datetime.now()

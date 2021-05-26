@@ -22,12 +22,23 @@
 
 
 {% block js %}
+
+<script src="/static/hebdo/js/article.js" data-include=""></script>
 <script src="/static/hebdo/js/colhandler.js" data-include=""></script>
 <script src="/static/hebdo/js/hebdo.js" data-include=""></script>
-<script >
-
-
+<script>
+    var data_hebdo_str = '{{hebdo.json|escapejs}}';
+    var maquette_hebdo_str = '{{maquette.json|escapejs}}';
+    var data = {
+        hebdo: JSON.parse(data_hebdo_str),
+        maquette: JSON.parse(maquette_hebdo_str),
+        articles: JSON.parse('{{articles|escapejs}}')
+    };
+    data.maquette.placement=data.maquette.placement?(JSON.parse(data.maquette.placement)):{};
+    data.maquette.config_placement=data.maquette.config_placement?(JSON.parse(data.maquette.config_placement)):{};
 </script>
+
+
 {% endblock %}
 
 
