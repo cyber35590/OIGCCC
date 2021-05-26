@@ -1,0 +1,84 @@
+/*
+    ================== gestion du cartouche ==========================
+*/
+
+.cart {
+    position: absolute;
+}
+
+.cart-rect-1 {
+    height: 4.88cm;
+    width: 100%;
+    background-color: var(--color2)  !important;
+}
+.cart-rect-2 {
+    height: 0.9cm;
+    width: 100%;
+    top: 4.88cm;
+    background-color: var(--color3)  !important;
+}
+
+.cart-tri {
+    display : inline-block;
+    top: 5.77cm;
+    height : 0;
+    width : 0;
+    border-top : 0.71cm solid #007e94;
+    border-right : 21cm solid transparent;
+}
+
+.cart-logo {
+    width: 5cm;
+    height: 5cm;
+    left: 0.5cm;
+    top: 1.35cm;
+}
+
+.cart-url {
+    text-decoration: none;
+    top: 0.94cm;
+    left: 6.25cm;
+    color: var(--color4);
+    font-size: 12pt;
+}
+
+.cart-tel {
+    text-decoration: none;
+    top: 0.94cm;
+    left: 11.68cm;
+    color: var(--color4);
+    font-size: 12pt;
+}
+
+.cart-mail {
+    text-decoration: none;
+    top: 0.94cm;
+    left: 15.24cm;
+    color: var(--color4);
+    font-size: 12pt;
+}
+
+.cart-numero {
+    top: 5cm;
+    left: 6.07cm;
+    color: var(--color4);
+    font-size: 14pt;
+    font-weight: 600;
+}
+
+.cart-date {
+    top: 5cm;
+    right: 0.91cm;
+    color: var(--color4);
+    font-size: 14pt;
+    font-weight: 600;
+}
+
+.cart-titre {
+    font-family: "Roboto Black";
+    left: 6.5cm;
+    top: 2.18cm;
+    color: var(--color5);
+    font-size: 45pt;
+    font-weight: 900;
+}

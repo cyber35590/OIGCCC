@@ -1,0 +1,184 @@
+
+/*
+    ================== Derniere page ==========================
+*/
+.s1 { width: var(--col-1-width); }
+.s2 { width: var(--col-2-width); }
+.s3 { width: var(--col-3-width); }
+
+
+.section {
+    margin-left: var(--col-space);
+    display: block;
+    margin-top: 0.5cm;
+
+}
+
+.section-title {
+    padding: 10px;
+    font-size: 12pt;
+    font-weight: 500;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    width: 120px;
+
+}
+.section-content {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+/* ============ Numéros ============ */
+.section-numeros {
+    width: var(--col-1-width);
+    height: 11.23cm;
+    color: var(--color4);
+    background-color: var(--color1);
+}
+.section-numeros > .section-title {
+    color: var(--color4);
+    background-color: var(--color2);
+}
+.section-numeros > .section-content > p {
+}
+.section-numeros > .section-content {
+}
+
+
+/* ============ Sudoku ============ */
+.section-sudoku {
+    margin-top: 5.3cm;
+    width: var(--col-1-width);
+    height: 6.43cm;
+    color: var(--color4);
+    background-color: var(--color2);
+}
+.section-sudoku > .section-title {
+    color: var(--color4);
+    background-color: var(--color3);
+}
+
+
+
+/* ============ Coup de coeur ============ */
+.section-coeur {
+    width: var(--col-1-width);
+    height: 11.23cm;
+    color: var(--color4);
+    background-color: var(--color3);
+    position: relative;
+}
+
+.section-coeur > .section-title {
+    color: var(--color4);
+    background-color: var(--color3);
+}
+
+.section-coeur > .section-content {
+    position: relative;
+    top: -1.3cm;
+}
+.section-coeur > center {
+    position: absolute;
+    bottom: 5px;
+    left: 0px;
+    width: 100%;
+}
+.jaquette {
+    max-width: 100%;
+    max-height: 5cm;
+}
+.coeur {
+    width: 70px;
+    background-color: none;
+    position: relative;
+    top: -20px;
+    left: -30px;
+}
+
+
+/* ============ médiathèque ============ */
+.section-mediatheque {
+    width: var(--col-3-width);
+    height: 7.75cm;
+    background-color: var(--color3);
+    box-sizing: border-box;
+}
+.section-mediatheque > .section-title {
+    color: var(--color4);
+    background-color: var(--color1);
+}
+.section-mediatheque > .section-content > p {
+    column-count: 2;
+}
+.section-mediatheque > .section-content {
+    color: var(--color4);
+    text-align: justify;
+    position: relative;
+    height: 87%;
+}
+.mediatheque-contact {
+    width: 45%;
+    right: 10px;
+    bottom: 10px;
+    position: absolute;
+}
+
+
+
+/* ============ menu ============ */
+.section-menu {
+    width: var(--col-2-width);
+    height: 8.2cm;
+    color: var(--color4);
+    background-color: var(--color2);
+}
+.section-menu > .section-content {
+    text-align: center;
+    color: var(--color5);
+}
+.section-menu > .section-title {
+    color: var(--color4);
+    background-color: var(--color3);
+}
+.menus > tbody > tr {
+    height: 1cm;
+}
+.menus {
+    font-size: 8pt;
+}
+.menus > tbody > tr > td{
+     border: 1px solid #fff;
+     text-align: center;
+}
+
+.menus-head{
+     font-size: 12pt !important;
+}
+
+.menus > tbody > tr > td:first-child {
+    width: 100px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+/* ============ mentions ============ */
+.section-mentions {
+    width: var(--col-1-width);
+    height: 8.2cm;
+    color: var(--color4);
+    background-color: var(--color1);
+}
+.section-mentions > .section-title {
+    color: var(--color4);
+    background-color: var(--color2);
+}
+.section-mentions > .section-content {
+    font-size: 7pt;
+}
+

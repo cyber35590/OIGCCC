@@ -63,6 +63,12 @@ def modify_article(request, id):
 def list_articles(request : HttpRequest):
     return render(request, "list_articles.html", {})
 
+def hebdo_test(request : HttpRequest):
+    return render(request, "hebdo/hebdo.html", {})
+
+def hebdo_make(request : HttpRequest):
+    return render(request, "hebdo_gen.html", {})
+
 def hebdo_list(request : HttpRequest):
     return render(request, "hebdo_list.html", { "data": Hebdo.objects.all().order_by("-numero") })
 
@@ -72,15 +78,6 @@ def hebdo_new(request : HttpRequest):
 
 def hebdo_edit(request : HttpRequest, id : int):
     hebdo = get_object_or_404(Hebdo, pk=id)
-
-    print("")
-    print("")
-    print("")
-    print("hebdo")
-    print(hebdo)
-    print("")
-    print("")
-    print("")
     return render(request, "hebdo.html", {"data": hebdo})
 
 

@@ -1,0 +1,306 @@
+@font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/static/hebdo/fonts/Roboto-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    src: url("/static/hebdo/fonts/Roboto-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 600;
+    src: url("/static/hebdo/fonts/Roboto-Medium.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 700;
+    src: url("/static/hebdo/fonts/Roboto-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 800;
+    src: url("/static/hebdo/fonts/Roboto-Black.ttf") format("truetype");
+}
+
+
+
+:root {
+    --rouge: #e94b5e;
+    --vert: #82c1ab;
+    --bleu: #007e94;
+    --noir: #000000;
+    --blanc: #ffffff;
+
+    --color1: var(--rouge);
+    --color2: var(--vert);
+    --color3: var(--bleu);
+    --color4: var(--blanc);
+    --color5: var(--noir);
+
+    --col-space: 0.8cm;
+    --col-1-width: 5.9cm;
+    /*@media screen {
+        --col-2-width: calc( var(--col-1-width) * 2  + var(--col-space) );
+        --col-3-width: calc( var(--col-2-width) + var(--col-1-width)  + var(--col-space) );
+    }
+    @media print {
+        --col-2-width: 12.6cm;
+        --col-3-width: 19.3cm;
+    }*/
+    --col-2-width: 12.6cm;
+    --col-3-width: 19.3cm;
+}
+
+@page {
+    size: A4;
+    margin: 0px;
+}
+
+
+
+.style-2 { background-color: var(--color2); }
+.style-2 > h1 { color: var(--color1) !important; }
+.style-2 > h2 { color: var(--color3) !important; }
+
+.style-3 { background-color: var(--color1) !important; }
+.style-3 > h1 { color: var(--color2) !important; }
+.style-3 > h2 { color: var(--color4) !important; }
+.style-3 > p { color: var(--color4) !important; }
+
+/*
+    ================== gestion des pages ==========================
+*/
+
+body {
+    height: 89.1cm;
+    width: 21cm;
+    padding: 0px;
+}
+
+.hebdo-root {
+    color: black;
+    font-family: "Roboto";
+    font-weight: 400;
+    font-size: 8px;
+}
+
+@media  screen {
+    .page {
+        margin-left: 50px;
+        margin-top: 50px;
+    }
+}
+@media  print {
+    body {
+        margin: 0px;
+    }
+}
+
+
+h1 {
+    font-size: 20px;
+    color: var(--color3) !important;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+h2 {
+    font-size: 14px;
+    color: var(--color2) !important;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+p {
+    margin-top: 5px;
+
+}
+
+.page {
+    width: 21cm;
+    height: 29.7cm;
+
+    position: relative;
+}
+
+@media screen {
+    .page {
+        background-color: #aaa;
+    }
+}
+
+
+.page-content {
+    top: 0px;
+    left: 0px;
+    width: 21cm:
+    height: 29.7cm;
+    z-index: 20;
+    display: flex;
+    margin-top:
+}
+
+.page-content-section {
+    top: 0px;
+    left: 0px;
+    width: 21cm:
+    height: 29.7cm;
+    z-index: 20;
+    display: flex-root;
+    margin-top:
+}
+
+
+/*
+    ================== gestion des articles (page 1, 2 et 3) ==========================
+*/
+.article {
+    overflow: hidden;
+    height: auto;
+    padding-top: 0cm;
+    padding-bottom: 0.3cm;
+    padding-left: 0.3cm;
+    padding-right: 0.3cm;
+}
+
+.article > p {
+    text-align: justify;
+}
+
+.article-2-col {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.article-1-col {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.article-2-col > p {
+    column-count: 2;
+}
+
+/*
+    ================== gestion des colones (page 2 et 3) ==========================
+*/
+/* Une colonne de publication d'une colone de texte */
+.pub-col-1{
+    width: var(--col-1-width);
+}
+
+/* Une colonne de publication de deux colones de texte */
+.pub-col-2{
+    width: var(--col-2-width);
+}
+
+.vfill {
+}
+
+.page-1 > .page-content > .pub,
+.page-2 > .page-content > .pub,
+.page-3 > .page-content > .pub {
+    position: relative;
+    margin-left: var(--col-space);
+}
+
+
+.page-2 > .page-content > .pub,
+.page-3 > .page-content > .pub {
+    margin-top: 1.5cm;
+    height: 26.7cm;
+}
+
+.page-1 > .page-content > .pub {
+    margin-top: 6.8cm;
+    height: 22.5cm;
+}
+
+.article-calendrier {
+    background-color: var(--color2);
+    display: block;
+
+}
+.article-calendrier > center > img {
+    background-color: var(--color2);
+    max-width: 30%;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+
+/*
+    ================== Element de date (page 2 et 3) ==========================
+*/
+
+
+/* Numéro page 2 */
+.head-bd {
+    position: absolute;
+    right: 0px;
+    width: 2.2cm;
+    height: 0.9cm;
+    bottom: 0.4cm;
+    background-color: var(--color3);
+    color: var(--color4);
+    font-size: 12pt;
+    padding-top: 5px;
+    padding-left: 10px;
+    text-align: left;
+}
+
+/* Numéro page 3 */
+.head-hd {
+    position: absolute;
+    right: 0px;
+    width: 2.2cm;
+    height: 0.9cm;
+    top: 0.4cm;
+    background-color: var(--color3);
+    color: var(--color4);
+    font-size: 12pt;
+    padding-top: 5px;
+    padding-left: 10px;
+    text-align: left;
+}
+
+
+/* Date page 2*/
+.head-hg {
+    position: absolute;
+    left: 0px;
+    text-align: right;
+    width: 8.5cm;
+    height: 0.9cm;
+    top: 0.4cm;
+    background-color: var(--color3);
+    color: var(--color4);
+    font-size: 12pt;
+    padding-top: 5px;
+    padding-right: 10px;
+}
+
+/* Date page 3*/
+.head-bg {
+    position: absolute;
+    left: 0px;
+    text-align: right;
+    width: 8.5cm;
+    height: 0.9cm;
+    bottom: 0.4cm;
+    background-color: var(--color3);
+    color: var(--color4);
+    font-size: 12pt;
+    padding-top: 5px;
+    padding-right: 10px;
+}

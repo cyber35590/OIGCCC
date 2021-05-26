@@ -10,6 +10,8 @@ urlpatterns = [
     path('hebdo/list', views.hebdo_list),
     path('hebdo/<int:id>', views.hebdo_edit),
     path('hebdo/new', views.hebdo_new),
+    path('hebdo/test', views.hebdo_test),
+    path('hebdo/make', views.hebdo_make),
 
     path('api/article/<int:id>/<str:key>/<str:val>', views.api_article_set),
     path('api/article/<int:id>/<str:key>', views.api_article_get),

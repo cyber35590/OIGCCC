@@ -1,0 +1,72 @@
+
+
+1 - Pages
+    Une page est une div avec au moin la classe "page" plus la classe "page-1", "page-2", "page-" ou
+    "page-4".
+
+2 - Les articles
+    Les articles sont contenus dans les divs de classes "pub" avec en soit "pub-col-1" ou "pub-col-2"
+    suivant le nombre de colonnes.
+
+    Les articles eux même sont des div avec au moins la classe "article" et soit "article-1-col",
+    ou "article-2-col" selon le nombre de colonnes.
+    Il n'y a aucune obligation d'avoir un article d'une colonne dans une colonne de deux. Il prendra
+    simplement toute la place
+
+
+    Chaque article est composé dans cet ordre de h1, h2 et p qui sont respectivment le titre, le sous titre
+    ou le contenu de l'article. Meme si l'article n'a pas de sous-titre, merci de laisser le h2 vide.
+    Dans ce cas il n'apparaitra pas pour le rendu mais laissera une régularité dans la structure.
+
+    Pour changer le style d'article (couleur de fond et titre) il existe 3 styles:
+    - "style-1" : Style par défaut, fond blanc
+    - "style-2" : Style avec un fond vert léger
+    - "style-3" : Style avec un fond rouge
+
+    Exemple:
+    - page
+        - page-content
+            - pub
+                - article
+                - article
+            - pub
+                - article
+                - article
+
+3 - Les éléments d
+
+
+Annexes
+
+Annexe 1 : Exemple d'article
+    <div class="article article-1-col style-1">
+        <h1>Lorem Ipsum</h1>
+        <h2>Qu'est-ce que le Lorem Ipsum?</h2>
+        <p>
+          Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.
+        </p>
+      </div>
+
+      <div class="article article-1-col style-3">
+        <h1>Lorem Ipsum</h1>
+        <h2>Qu'est-ce que le Lorem Ipsum?</h2>
+        <p>
+          Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.
+        </p>
+      </div>
+
+
+Annexe 2 : Structuration d'une page (exempel avec une page 2):
+    <div class="page page-2">
+        <div class="head-hg">Du 21 au 28 mai 2021</div>
+        <div class="head-bd">N° 1568</div>
+        <div class="page-content">
+            <div class="pub pub-col-1" >
+              <!-- Insérer ici des articles sur 1 colone avec la classe "article-1-col" -->
+            </div>
+
+            <div class="pub pub-col-2" >
+              <!-- Insérer ici des articles sur 2 colones avec la classe "article-2-col" -->
+            </div>
+        </div>
+    </div>
