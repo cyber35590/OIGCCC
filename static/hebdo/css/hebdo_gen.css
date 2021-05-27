@@ -1,4 +1,56 @@
 .vseparator {
+}
+
+.draggable {
+}
+
+.container {
+    max-width: none;
+}
+
+.drag-start {
     width: 100%;
-    background-color: #f00;
+    height: 10px;
+    /*background-color: #cccc;
+    border: 1px solid #999;
+    border-radius: 10px;*/
+}
+
+.drag-over {
+    width: 100%;
+    height: 60px;
+    background-color: #cccc;
+    border: 1px solid #999;
+    border-radius: 10px;
+}
+
+.app_root {
+    display: flex;
+}
+
+.option_pane {
+}
+
+.app_root {
+    position: fixed;
+    top: 55px;
+    left: 0px;
+    overflow: auto;
+    height: calc(100% - 55px);
+}
+
+#hebdo_root {
+    padding-left: 4px;
+    left: 0;
+    overflow: scroll;
+    overflow-y: auto;
+}
+
+.sep {
+    position: relative;
+    left: -20px;
+    background-color: #000;
+    width: 10px;
+    height: 100%;
+    cursor: w-resize;
 }
