@@ -41,6 +41,51 @@ var STYLES_PARAMS =[
     ]
 ]
 
+class  StyledArticle {
+
+    constructor(data){
+        Object.assign(this, data.article);
+        this.style=Object.assign({
+                style: {
+                    force: null
+                },
+                image : {
+                    show: null,
+                    fileid: null,
+                    placement: null
+                }
+            }, data.style)
+    }
+
+    get_json(){
+        return this.style;
+    }
+
+}
+
+
+class StyleManager{
+    constructor(app, data){
+        this.app = app;
+        this.pages=[ [[], []], [[], []], [[], []] ]
+    }
+
+    //
+    add(auid_or_srtyle){
+        if(Number.isInteger(auid_or_srtyle)){
+            var article = this.app.get_raw_article(auid_or_srtyle);
+            this.styles[article.id] = new StyledArticle({article: article});
+        }else{
+            this.styles[article.id] = new StyledArticle(auid_or_srtyle)
+        }
+    }
+
+    get(id){
+
+    }
+
+}
+
 
 function new_cal(data){
     return Template.instanciate("template-hebdo-cal", data);
@@ -75,25 +120,30 @@ function get_article(id){
 
 }
 
-
 function _get_col_from_id(manager, id){
     return manager.get_col(id);
 }
 
+function get_col_width(elem){
+    if(elem.hasClass("pub-col-1")) return 1;
+    if(elem.hasClass("pub-col-2")) return 2;
+    if(elem.hasClass("pub-col-3")) return 3;
+    return 0;
+}
 
-class HebdoColumn {
-    constructor(elem, ncol, styleparam, manager){
+class ArticleContainer{
+    constructor(elem, app){
         this.root=elem;
-        this.manager=manager;
+        this.app=app;
+        this.root=elem;
+        this.app=app;
         this.data_col_id="_"+Utils.newid(32)
-        this.style_param=styleparam
-        this.ncol=ncol
+        this.ncol=get_col_width(elem)
         this.height=elem.height();
-        this.children=[]
         this.sep_class="___"+Utils.newid();
         this.root.data("colid", this.data_col_id);
-        this._add_sep();
-        this.current_drag=null;
+        this.children=[]
+        this.children_index={}
     }
 
     find_index_by_elem_id(elemid){
@@ -102,27 +152,113 @@ class HebdoColumn {
        return -1;
     }
 
-    find_by_elem_id(elemid){
+    find_by_id(elemid){
         for(var i=0; i<this.children.length;i++)
             if(elemid == this.children[i].elemid) return i;
        return null;
     }
 
-    drop_from(evt) {
-        var divtarget = $(evt.target);
-        divtarget.removeClass("drag-over");
-        divtarget.addClass("drag-start");
-        var index = parseInt(divtarget.data("index"));
-        var data = JSON.parse(evt.originalEvent.dataTransfer.getData("text"));
-        var src = this.manager.get_col(data.id);
-
-        var elemid = src.find_index_by_elem_id(data.elemid)
-        var removed = src.remove(elemid);
-        console.log("src id: ",elemid, "dst id", index)
-        this.insert(removed, index);
+    prepare_element(elem, data, index){
+        var self = this;
+        elem.data("colid", this.data_col_id);
+        elem.data("id", data.id);
+        elem.attr("draggable", true);
+        elem.on("dragstart", function(evt){
+            $(".draggable").addClass("drag-start");
+            var out = {id: self.data_col_id,  id: data.id, container: self.data_col_id};
+            evt.originalEvent.dataTransfer.setData("text/plain", JSON.stringify(out));
+        });
+        elem.on("dragend", function(evt){
+            $(".drag-start").removeClass("drag-start")
+            $("drag-over").removeClass("drag-over")
+        });
     }
 
-    _add_sep(index=null){
+
+    find(...params){return this.root.find(...params)}
+
+    append(data){
+        this.insert(data, this.children.length)
+    }
+
+    _new_element(data, index){
+        var elem = this.create_article_element(data, index);
+        this.prepare_element(elem, data, index);
+        return elem;
+    }
+
+    insert(data, index) {
+        if(this.children.length) this.root.append($('<div class="'+this.sep_class+'"></div>'))
+        var elem = this._new_element(data, index);
+        var dst = this.find(".vseparator[data-index="+index+"]")
+
+        var row_data = { data: data, elem: elem, id: data.id};
+        this.children.splice(index, 0, row_data)
+        this.children_index[row_data.id] = row_data;
+        dst.after(elem)
+        this.add_sep(index+1);
+        this.update();
+        return true;
+    }
+
+    remove(dataid){
+        var data = this.children_index[dataid].data;
+        var elem = this.children_index[dataid].elem;
+        var i = parseInt(elem.data("index"));
+        this.children.splice(i,1);
+        delete this.children_index[dataid]
+        elem.next().remove();
+        elem.remove();
+        this.update();
+        return data;
+    }
+
+    get_json(){
+        var out = []
+        for(var i in this.children){
+            var data = this.children[i].data;
+            out.push({
+                auid: data.id, //article unique id
+                placement: data.placement
+            })
+        }
+        return out;
+    }
+
+
+    clear(){
+        this.root.empty();
+        this.children=[]
+        this.children_index={}
+    }
+
+    set_json(js){
+        this.clear();
+        for(var i in js){
+            this.append(js);
+        }
+    }
+
+    //
+    on_drag_over(){}
+    on_drag_leave(){}
+    show_drag_items(){}
+    hide_drag_items(){}
+
+
+    create_article_element(article){}
+    udpate(){}
+
+}
+
+class HebdoColumn extends ArticleContainer {
+    constructor(root_elem, styleparam, app){
+        super(root_elem, app);
+        this.style_param=styleparam
+        this.add_sep();
+    }
+
+    add_sep(index=null){
         if(index==null) index=this.children.length;
         var sep = $('<div class="vseparator draggable" data-host-id="'+this.data_col_id+'" data-index="'+index+'" > </div>');
         var self = this;
@@ -145,7 +281,7 @@ class HebdoColumn {
         else this.root.append(sep);
     }
 
-    update_styles(){
+    update(){
         var self = this;
         var i = 0;
         this.find(".vseparator").each(function(_, e){
@@ -158,6 +294,7 @@ class HebdoColumn {
             var data = this.children[i].data;
             var elem = this.children[i].elem;
             this.style_param.remove_class(elem);
+            this.children[i].elem.data("index", i);
             if( /*data.style && data.style.force*/ true){ //vérifier si le style est forcé ou non
                 this.style_param.set_class(elem, noforce_count);
                 noforce_count++;
@@ -168,65 +305,9 @@ class HebdoColumn {
         }
     }
 
-    find(...params){return this.root.find(...params)}
 
-
-    prepare_article(elem, index, elemid){
-        var self = this;
-        elem.data("colid", this.data_col_id);
-        elem.data("id", data.id);
-        elem.data("elem-id", elemid);
-        elem.attr("draggable", true);
-        elem.on("dragstart", function(evt){
-            $(".draggable").addClass("drag-start");
-            var data = {id: self.data_col_id,  elemid: elemid};
-            evt.originalEvent.dataTransfer.setData("text/plain", JSON.stringify(data));
-        });
-        elem.on("dragend", function(evt){
-            $(".drag-start").removeClass("drag-start")
-            $("drag-over").removeClass("drag-over")
-        });
-
-    }
-
-    append(data){
-        this.insert(data, 0)
-    }
-
-    insert(data, index) {
-        if(this.children.length) this.root.append($('<div class="'+this.sep_class+'"></div>'))
-        var elem = new_article(data);
-        var elemid = Utils.newid(16)
-        this.prepare_article(elem, index, elemid);
-        var dst = this.find(".vseparator[data-index="+index+"]")
-
-        this.children.splice(index, 0, { data: data, elem: elem, elemid: elemid})
-        dst.after(elem)
-        this._add_sep(index+1);
-        this.update_styles();
-        return true;
-    }
-
-    remove(i){
-        if(!Number.isInteger(i)){
-            var j;
-            for(j in this.children){
-                if(this.children[j].data==i || this.children[j].elem==i){
-                    i=j;
-                    break;
-                }
-            }
-        }
-        if(i<0 || j>=this.children.length) return null;
-
-        console.log("this.children",this.children)
-        var data = this.children[i].data;
-        var elem = this.children[i].elem;
-        this.children.splice(i,1);
-        elem.next().remove();
-        elem.remove();
-        this.update_styles();
-        return data;
+    create_article_element(data, index){
+        return Template.instanciate("template-hebdo-article", data);
     }
 
     get_free_space(){
@@ -235,7 +316,43 @@ class HebdoColumn {
             e=$(e);
             left-=e.outerHeight();
         })
-        console.log("Left = ", left)
         return left;
     }
+
+    clear(){ super.clear(); this.add_sep(); }
+
+    drop_from(evt) {
+        var divtarget = $(evt.target);
+        divtarget.removeClass("drag-over");
+        divtarget.addClass("drag-start");
+        var index = parseInt(divtarget.data("index"));
+        var data = JSON.parse(evt.originalEvent.dataTransfer.getData("text"));
+        console.log(data, this.app.hebdo)
+        var src = this.app.hebdo.collections[data.container];
+        var removed = src.remove(data.id);
+        this.insert(removed, index);
+    }
 }
+
+class SimpleArticleContainer extends ArticleContainer{
+
+    constructor(root_elem, app){
+        super(root_elem, app);
+    }
+
+    drop_from(evt){
+
+    }
+
+    insert(data, index){
+        //envoyer l'ancien à not_used avant d'appeler super
+    }
+
+    remove(dataid){
+        //vider plutot que de supprimer
+    }
+
+    create_article_element(data, index){
+    }
+}
+

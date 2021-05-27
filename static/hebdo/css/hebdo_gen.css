@@ -35,22 +35,32 @@
     position: fixed;
     top: 55px;
     left: 0px;
-    overflow: auto;
     height: calc(100% - 55px);
 }
 
-#hebdo_root {
-    padding-left: 4px;
-    left: 0;
+.hebdo_visualizer {
     overflow: scroll;
     overflow-y: auto;
 }
 
+.overflow-col {
+    border: 2px solid #f00;
+}
+
 .sep {
     position: relative;
-    left: -20px;
     background-color: #000;
-    width: 10px;
+    width: 1px;
     height: 100%;
     cursor: w-resize;
+}
+
+.option_pane {
+    display: block;
+}
+
+.article_list {
+    width: 100%;
+    background-color: red;
+    height: 100%;
 }

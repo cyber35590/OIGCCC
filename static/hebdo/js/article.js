@@ -1,5 +1,6 @@
 
 function new_article(data){
+    console.log("new_article", data)
     return Template.instanciate("template-hebdo-article", data);
 }
 
