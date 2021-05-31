@@ -3,7 +3,9 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('', views.new_article, name='index'),
+    path('', views.list_articles, name='index'),
+    path('accounts/login/', views.accounts_login),
+    path('accounts/logout/', views.accounts_logout),
     path('article/new', views.new_article),
     path('article/<int:id>', views.modify_article),
     path('articles', views.list_articles),
@@ -13,7 +15,11 @@ urlpatterns = [
     path('hebdo/test', views.hebdo_test),
     path('hebdo/<int:id>/maquette/new', views.hebdo_make_new),
     path('hebdo/<int:id>/maquette/<int:mid>', views.hebdo_make),
+    path('hebdo/<int:id>/maquette/<int:mid>/html', views.render_html),
+    path('hebdo/<int:id>/maquette/<int:mid>/pdf', views.render_pdf),
+    path('hebdo/<int:id>/maquette/<int:mid>/pdf/embedded', views.render_pdf),
 
+    path('api/article/new', views.api_article_new),
     path('api/article/<int:id>/<str:key>/<str:val>', views.api_article_set),
     path('api/article/<int:id>/<str:key>', views.api_article_get),
     path('api/article/<int:id>', views.api_modify_article),
@@ -24,6 +30,7 @@ urlpatterns = [
     path('api/hebdo/list', views.api_hebdo_list),
     path('api/hebdo/<int:id>', views.api_hebdo),
     path('api/hebdo/<int:id>/add/<int:article>', views.api_hebdo_add_article),
+    path('api/hebdo/<int:id>/update/<int:article>', views.api_hebdo_update_article),
     path('api/hebdo/<int:id>/add', views.api_hebdo_add_batch),
     path('api/hebdo/<int:id>/remove/<int:article>', views.api_hebdo_remove_article),
     path('api/hebdo/<int:id>/delete', views.api_hebdo_delete),

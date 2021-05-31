@@ -149,8 +149,8 @@ class Maquette(models.Model, Jsonable):
 
 
     def set(self, data):
-        self.flags = data["flags"]
-        self.config_placement = data["config_placement"]
+        self.flags = data["flags"] if "flags" in data else self.flags
+        self.config_placement = data["config_placement"] if "config_placement" in data else self.config_placement
         self.placement = data["placement"]
         self.rendu = data["rendu"]
         self.date_modification=datetime.datetime.now()

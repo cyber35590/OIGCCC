@@ -1,44 +1,25 @@
 
-function new_article(data){
-    console.log("new_article", data)
-    return Template.instanciate("template-hebdo-article", data);
-}
-
-
-
-/**
-    Les propriétés pour placer automatiquement un article
-*/
-class ArticlePlacementConfig {
-    constructor(data={}){
-        this.flags={}
-        this.articleid=null;
-        this.style = null;
-        this.height = {
-
-        }
-        Object.assign(this, data);
-
+class EmbeddedArticle extends _ArticleForm {
+    constructor(app){
+        super();
+        this.app=app;
+        $(".title_bar").remove()
+        $("[data-on=editArticle]").remove()
     }
-}
-
-class PlacementConfig {
-    constructor(data={}){
 
 
+    editArticle(){
+        var data = this.getData();
+        var self = this;
+        API.article_edit(data, {
+            success: function(x) {
+                current_article=x;
+                self.setData(current_article)
+                self.app.refresh_article(current_article)
+                toast("Article enregistré")
+            }
+        })
     }
-}
 
-class Article {
-    constructor(data) {
-        Object.assign(this, data);
-    }
-}
-
-
-class Placement {
-    constructor(){
-
-    }
 }
 

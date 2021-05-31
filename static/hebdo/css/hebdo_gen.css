@@ -1,27 +1,45 @@
 .vseparator {
 }
 
-.draggable {
+.dropable {
+    transition: width 0.5s, height 0.4s, background-color 0.5s, transform 0.5s;
 }
 
 .container {
     max-width: none;
+    background-color: #cccc;
 }
 
-.drag-start {
+.vseparator.drag-start {
     width: 100%;
     height: 10px;
-    /*background-color: #cccc;
-    border: 1px solid #999;
-    border-radius: 10px;*/
-}
-
-.drag-over {
-    width: 100%;
-    height: 60px;
-    background-color: #cccc;
+    background-color: #00b;
     border: 1px solid #999;
     border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.vseparator.drag-over {
+    width: 100%;
+    height: 40px;
+    background-color: #00b;
+    border: 1px solid #999;
+    border-radius: 10px;
+    transform: scale(1.1);
+}
+
+.pub.drag-start {
+    background-color: #ccc;
+    border: 1px solid #999;
+    border-radius: 10px;
+}
+
+.pub.drag-over {
+    background-color: #eee;
+    border: 1px solid #999;
+    border-radius: 10px;
+    transform: scale(1.1);
 }
 
 .app_root {
@@ -33,14 +51,14 @@
 
 .app_root {
     position: fixed;
-    top: 55px;
+    top: 87px;
     left: 0px;
-    height: calc(100% - 55px);
+    height: calc(100% - 87px);
 }
 
 .hebdo_visualizer {
-    overflow: scroll;
-    overflow-y: auto;
+    overflow-x: auto;
+    overflow-y: scroll;
 }
 
 .overflow-col {
@@ -50,7 +68,7 @@
 .sep {
     position: relative;
     background-color: #000;
-    width: 1px;
+    width: 10px;
     height: 100%;
     cursor: w-resize;
 }
@@ -61,6 +79,128 @@
 
 .article_list {
     width: 100%;
-    background-color: red;
     height: 100%;
+    overflow: scroll;
+    overflow-y: scroll;
+}
+
+.hebdo-av-titre {
+    font-size: 14pt;
+    font-weight: 800;
+}
+.hebdo-av-sous-titre {
+    font-size: 12pt;
+    font-weight: 600;
+}
+.hebdo-av-contenu {
+    font-size: 10pt;
+}
+.hebdo-av-dates {
+    font-size: 10pt;
+}
+
+.hebdo-article-entry {
+    border: 2px solid #aaa;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.hebdo-article-entry.selected,
+.hebdo-article-entry:hover {
+    background-color: #eee;
+}
+
+[draggable=true].selected,
+[draggable=true]:hover{
+    border: 2px solid #888;
+    border-radius: 5px;
+    transform: scale(1.05);
+}
+
+[draggable=true].selected {
+    transform: scale(1) !important;
+}
+
+[draggable=true]{
+    transition: transform 0.3s;
+}
+
+.pub.overflow {
+    border: 3px solid var(--color1);
+    overflow: hidden;
+}
+
+.hebdo-menu-bar {
+
+}
+
+.context-menu {
+    display: none;
+    z-index: 10;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+.context-menu > li {
+
+}
+
+.main-menu-bar {
+    width: 100%;
+    position: fixed;
+    top: 55px;
+    left: 0px;
+    height: 32px;
+    background-color: #eee;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.available-menu-bar {
+    width: 100%;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    height: 32px;
+    background-color: #eee;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+input.menu-bar-item {
+    font-size: 10pt;
+    padding-top: 0px;
+    position: relative;
+    top: -7px;
+}
+.menu-bar-item {
+    margin-top: 3px;
+}
+
+.available-filter {
+    margin-left: 20px;
+}
+
+.available-filter:after {
+    margin-right: 20px;
+}
+
+i.menu-bar-item:hover{
+    border: 1px solid #aaa;
+    cursor: pointer;
+}
+
+#iframe-preview-root > embed,
+#iframe-preview-root > iframe {
+    width: 100%;
+    height: 1000px;
+}
+
+.warning-update {
+    color: red;
+    position: relative;
+    top: 5px;
 }

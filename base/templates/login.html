@@ -1,0 +1,64 @@
+{% extends "template.html" %}
+
+
+{% block title %} Authentification {% endblock %}
+
+{% block css %}
+<link href="/static/css/.css" rel="stylesheet"  data-include="">
+<style>
+
+    .login-root {
+        border: 1px solid #a0b0c0;
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        width: 50%;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #fafafa;
+    }
+
+</style>
+{% endblock %}
+
+
+{% block js %}
+<script src="/static/js/.js" data-include=""></script>
+<script >
+$(document).ready(function(){
+    $("nav").remove();
+})
+
+</script>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="login-root">
+        <h1>Authentification</h1>
+        <form action="/accounts/login/" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text">Nom d'utilisateur</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Nom d'utilisateur" name="username" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text">Mot de passe</span>
+                </div>
+                <input type="password" class="form-control" placeholder="Mot de passe" name="password" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+
+            <div class="input-group">
+                <button type="submit" class="btn btn-primary">Valider</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+

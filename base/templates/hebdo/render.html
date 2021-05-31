@@ -1,0 +1,26 @@
+
+<!doctype html>
+<html lang="fr">
+<style>
+
+  </style>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+
+    {% include "ui/header/css.html" %}
+    <link href="/static/hebdo/css/hebdo.css" rel="stylesheet"  data-include="">
+    <link href="/static/hebdo/css/cartouche.css" rel="stylesheet"  data-include="">
+    <link href="/static/hebdo/css/quatrieme.css" rel="stylesheet"  data-include="">
+
+
+    <title>{% block title %} {% endblock %}</title>
+  </head>
+
+  <body>
+    <div class="hebdo-root">
+      {{rendu|safe}}
+    </div>
+  </body>
+</html>
+

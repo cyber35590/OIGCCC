@@ -1,127 +1,212 @@
-<template id="template-article-entry" data-param="value=;id=;label=;name=;type=checkbox;cast=bool;text=">
-    <div class="row article-entry" id="template-article-entry-root">
-        <div class="col-sm-8 article-content">
-            <a class="dropdown" id="dropdown_priorite_[[id]]">
-                <button class="btn btn-secondary dropdown-toggle [[priorite_classe]] dropdown-badge" type="button"
-                            id="dropdown_priorite_[[id]]_value"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    [[priorite_str]]
-                </button>
-                <div class="dropdown-menu  dropdown-badge-entry-root">
-                    <button class="dropdown-item dropdown-badge-entry theme-1" data-on="set_prio(Priorite.IMPERATIF)">Impératif</button>
-                    <button class="dropdown-item dropdown-badge-entry theme-3" data-on="set_prio(Priorite.IMPORTANT)">Important</button>
-                    <button class="dropdown-item dropdown-badge-entry theme-2" data-on="set_prio(Priorite.SECONDAIRE)">Secondaire</button>
-                </div>
-            </a>
-            <i>À publier du <b>[[date_debut_texte]]</b> au <b>[[date_fin_texte]]</b></i>
-            <h3>[[titre]]</h3>
-            <h5>[[sous_titre]]</h5>
-            [[resume]]
-        </div>
-        <div class="col-sm-4 article-info">
-            <div class="action-bar">
-                <a type="button" class="btn  fond-color-1 color-4" title="Informations sur l'article" data-on="show_info">
-                    <i class="material-icons selection-action" >info</i>
-                </a>
-                <a type="button" class="btn  fond-color-1 color-4" title="Aperçu de l'article" data-on="show_apercu">
-                    <i class="material-icons selection-action" >preview</i>
-                </a>
-                <a type="button" class="btn  fond-color-1 color-4" title="Modifier l'article" onclick="openInNewTab('/article/[[id]]')">
-                    <i class="material-icons selection-action" >edit</i>
-                </a>
-                <a class="dropdown menu-action-other">
-                  <button class="btn btn-secondary dropdown-toggle  fond-color-1" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Autres Actions
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <button class="dropdown-item [[archive_class]] archive" type="button" data-on="archive">Archiver</button>
-                    <button class="dropdown-item [[unarchive_class]] unarchive" type="button" data-on="unarchive">Désarchiver</button>
-                    <button class="dropdown-item" type="button" data-on="delete_revision">Supprimer la révision</button>
-                    <button class="dropdown-item" type="button" data-on="delete_article">Supprimer l'article</button>
-                  </div>
-                </a>
-            </div>
 
-          <div class="badge-done">
-              <span class="badge badge_done_[[pub_fb]] badge_fb" title="[[pub_fb_text]]">Facebook</span>
-              <span class="badge badge_done_[[pub_web]] badge_web" title="[[pub_web_text]]">Site Web</span>
-              <span class="badge badge_done_[[pub_hebdo]] badge_hebdo" title="[[pub_hebdo_text]]">Hebdo</span>
-              <span class="badge badge_done_[[pub_pp]] badge_pp" title="[[pub_pp_text]]">Panneau Pocket</span>
-              <span class="badge badge_done_[[pub_panneau]] badge_panneau" title="[[pub_panneau_text]]">Panneau</span>
-          </div>
+
+
+<template id="TI-form-pub" data-param="name=;prefix=">
+    <div class="row col-sm-12 form-pub">
+        <div class="custom-control custom-checkbox" data-prefix="[[prefix]]">
+            <input type="checkbox" class="custom-control-input" id="__id__cb__[[prefix]]" data-prefix="[[prefix]]"
+                   data-bind="pub_[[prefix]]_cb:bool"
+                   data-on-change="checkbox_changed">
+            <label class="custom-control-label" for="__id__cb__[[prefix]]">[[name]]</label>
+        </div>
+        <div data-prefix="[[prefix]]">
+            <select class="col-sm form-control" data-bind="pub_[[prefix]]:int" id="select-pub-[[prefix]]">
+                <option value="2" selected>A faire</option>
+                <option value="3">A modifier</option>
+                <option value="4">Fait</option>
+            </select>
         </div>
     </div>
 </template>
 
-
-<div class="modal" tabindex="-1" role="dialog"  id="apercu-modal">
-  <div class="modal-dialog large-modal" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Aperçu</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" >
-      </div>
-        <h1 id="modal_apercu_titre"></h1>
-        <h2 id="modal_apercu_sous_titre"></h2>
-        <div id="modal_apercu_contenu"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" tabindex="-1" role="dialog"  id="info-modal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"  id="alert-title">Informations</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body"  id="alert-content">
-      </div>
-        <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col"><b>Propriété</b></th>
-                        <th scope="col"><b>Valeur</b></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><b>Date de création</b></td>
-                        <td id="article_list_info_date_creation"></td>
-                    </tr>
-                    <tr>
-                        <td><b>Date de modification</b></td>
-                        <td id="article_list_info_date_modification"></td>
-                    </tr>
-                    <tr>
-                        <td><b>Identifiant unique de révision</b></td>
-                        <td id="article_list_info_id"></td>
-                    </tr>
-                    <tr>
-                        <td><b>N° de révision</b></td>
-                        <td id="article_list_info_revision"></td>
-                    </tr>
-                    <tr>
-                        <td><b>Nombre de caractères</b></td>
-                        <td id="article_list_info_char_count"></td>
-                    </tr>
-                    <tr>
-                        <td><b>Nombre de mots</b></td>
-                        <td id="article_list_info_word_count"></td>
-                    </tr>
-                </tbody>
-            </table>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+<template id="widget-article">
+    <div class="modal" tabindex="-1" role="dialog"  id="info-modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"  id="alert-title">Informations</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body"  id="alert-content">
+          </div>
+            <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"><b>Propriété</b></th>
+                            <th scope="col"><b>Valeur</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Date de création</b></td>
+                            <td id="prop_creation"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Date de modification</b></td>
+                            <td id="prop_modification"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Identifiant article</b></td>
+                            <td id="prop_id"></td>
+                        </tr>
+                        <tr>
+                            <td><b>N° de révision</b></td>
+                            <td id="prop_revision"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Nombre de caractères</b></td>
+                            <td id="prop_chars"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Nombre de mots</b></td>
+                            <td id="prop_words"></td>
+                        </tr>
+                    </tbody>
+                </table>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+
+    <div class="modal" tabindex="-1" role="dialog"  id="history-modal">
+      <div class="modal-dialog large-modal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" >Historique</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          </div>
+            <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"><b>Version</b></th>
+                            <th scope="col"><b>Titre</b></th>
+                            <th scope="col"><b>Période de publication</b></th>
+                            <th scope="col"><b>Création / Modification</b></th>
+                            <th scope="col"><b>signes/mots</b></th>
+                            <th scope="col"><b>Importance</b></th>
+                            <th scope="col"><b>Voir</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for entry in history %}
+
+                        <tr {% if entry.id == data.id %}class="bold_row" {% endif %}>
+                            <td>{{entry.revision}}</td>
+                            <td>{{entry.titre}}</td>
+                            <td>Du {% if entry.date_debut %} {{entry.date_debut|date:"d/m/Y"}} {% else %} - {% endif %}
+                                à {% if entry.date_fin %} {{entry.date_fin|date:"d/m/Y"}}{% else %} - {% endif %}</td>
+                            <td>{{entry.date_creation|date:"d/m/Y h:i:s"}} / {{entry.date_modification|date:"d/m/Y H:i:s"}}</td>
+                            <td>{{entry.char_count}} / {{entry.word_count}}</td>
+                            <td>{% if entry.priorite == 2 %}<p class="color-1">Impératif</p>
+                                {% elif entry.priorite == 1 %} <p class="color-3">Important</p>
+                                {% else %}  <p class="color-2">Secondaire</p>   {% endif %}</td>
+                            <td><a href="/article/{{entry.id}}" class="btn mtn-md fond-color-1 color-4">Voir</a></td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+        <div class="row title_bar">
+            <h1> Article</h1>
+            <div class="article_actions">
+                <a type="button" class="btn btn-sm fond-color-1 color-4" href="/article/new" title="Créer un nouvel article">
+                    <i class="material-icons selection-action" >add</i>
+                </a>
+                <a type="button" class="btn btn-sm fond-color-1 color-4" onclick="ArticleForm.newRevisionArticle()" title="Créer une nouvelle version de l'article de ce contenu">
+                    <i class="material-icons selection-action" >file_copy</i></a>
+                <a type="button" class="btn btn-sm fond-color-1 color-4" onclick="$('#info-modal').modal('show')" title="Information sur la version enregistrée">
+                    <i class="material-icons selection-action" >info</i>
+                </a>
+                <a type="button" class="btn btn-sm fond-color-1 color-4" onclick="$('#history-modal').modal('show')" title="Historique de l'article">
+                    <i class="material-icons selection-action" >history</i>
+                </a>
+                <a type="button" class="btn btn-sm fond-color-1 color-4" onclick="ArticleForm.editArticle()" title="Enregistrer les modification">
+                    <i class="material-icons selection-action" >save</i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <form id="article_form">
+        <div class="form-group row hidden">
+            <input type="text"  data-bind="id:int" value="-1">
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Publication du</label>
+            <div class="col-sm-4">
+                <input type="date"  name="trip-start" class="form-control datepicker" data-bind="date_debut:date">
+            </div>
+            <label class="col-sm-2 col-form-label ">au</label>
+            <div class="col-sm-4">
+                <input type="date" name="trip-start" class="form-control datepicker"  data-bind="date_fin:date">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Priorité</label>
+            <div class="col-sm-10">
+                <select class="col-sm form-control"  data-bind="priorite:int">
+                    <option value="2" selected>Impératif</option>
+                    <option value="1">Important</option>
+                    <option value="0">Secondaire</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Publication</label>
+            <div class = "col-sm-10 row">
+                {% for pub in data.pubs %}
+                <a data-template="TI-form-pub" data-param="name={{pub.name}};prefix={{pub.id}}"></a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Titre</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control"  placeholder="Ttire" data-bind="titre:str">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Sous-titre</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control"  placeholder="Sous-titre" data-bind="sous_titre:str">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Contenu</label>
+            <div class="col-sm-10">
+                <textarea id="rich-content" style="width:100%;height: 400px;"></textarea>
+                <!-- le databind contenu est ajouté dans le JS -->
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Commentaires</label>
+            <div class="col-sm-10">
+                <textarea  class="form-control" data-bind="commentaires"></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <button type="button" class="btn btn-lg btn-primary" data-on="editArticle">Enregistrer</button>
+
+        </div>
+    </form>
+</template>

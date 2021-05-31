@@ -52,7 +52,6 @@ class OigccAPI
                         oldfct(resp, true, _c)
                     }catch(err){
                         resp=_a.responseText
-                console.log("la")
                         oldfct(resp, false, _c)
                     }
 
@@ -149,6 +148,10 @@ class OigccAPI
         return this.ajax_post("article/"+data.id, out, opt)
     }
 
+    article_new(opt){
+        return this.ajax_get("article/new", opt)
+    }
+
     article_new_revision(data, opt){
         var out = {
             article: data,
@@ -209,6 +212,10 @@ class OigccAPI
 
     hebdo_add(id, article, opt){
         return this.ajax_get("hebdo/"+id+"/add/"+article, opt);
+    }
+
+    hebdo_update(id, article, opt){
+        return this.ajax_get("hebdo/"+id+"/update/"+article, opt);
     }
 
     hebdo_add_batch(id, articles, opt){

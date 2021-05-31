@@ -67,7 +67,9 @@
     margin: 0px;
 }
 
-
+html {
+    /*hyphens: auto;*/
+}
 
 .style-2 { background-color: var(--color2); }
 .style-2 > h1 { color: var(--color1) !important; }
@@ -76,7 +78,7 @@
 .style-3 { background-color: var(--color1) !important; }
 .style-3 > h1 { color: var(--color2) !important; }
 .style-3 > h2 { color: var(--color4) !important; }
-.style-3 > p { color: var(--color4) !important; }
+.style-3 > div { color: var(--color4) !important; }
 
 /*
     ================== gestion des pages ==========================
@@ -92,7 +94,7 @@ body {
     color: black;
     font-family: "Roboto";
     font-weight: 400;
-    font-size: 8px;
+    font-size: 8pt;
 }
 
 @media  screen {
@@ -108,23 +110,50 @@ body {
 }
 
 
-h1 {
-    font-size: 20px;
-    color: var(--color3) !important;
+h1.hebdo-titre {
+    font-size: 20pt;
+    color: var(--color3);
     margin-top: 5px;
     margin-bottom: 0px;
 }
-h2 {
-    font-size: 14px;
-    color: var(--color2) !important;
+h2.hebdo-sous-titre {
+    font-size: 12pt;
+    color: var(--color2);
     margin-top: 5px;
     margin-bottom: 0px;
 }
+.section {
+    font-size: 8pt;
+    line-height: 1.19;
+    text-align: justify;
+}
 
-p {
+div.hebdo-contenu {
     margin-top: 5px;
+    line-height: 1.19;
 
 }
+
+ul {
+    padding-left: 8px;
+    padding-right: 0px;
+}
+
+div.hebdo-contenu > p {
+    margin-bottom: 0pt;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.font-20 { font-size: 20pt !important;}
+.font-19 { font-size: 19pt !important;}
+.font-18 { font-size: 18pt !important;}
+.font-17 { font-size: 17pt !important;}
+.font-16 { font-size: 16pt !important;}
+.font-15 { font-size: 15pt !important;}
+.font-14 { font-size: 14pt !important;}
+.font-13 { font-size: 13pt !important;}
+.font-12 { font-size: 12pt !important;}
 
 .page {
     width: 21cm;
@@ -138,6 +167,7 @@ p {
         border: 1px solid #aaa;
     }
 }
+
 
 
 .page-content {
@@ -177,6 +207,7 @@ p {
     text-align: justify;
 }
 
+
 .article-2-col {
     width: 100%;
     box-sizing: border-box;
@@ -187,7 +218,7 @@ p {
     box-sizing: border-box;
 }
 
-.article-2-col > p {
+.article-2-col > div {
     column-count: 2;
 }
 

@@ -32,8 +32,8 @@ function dropdown_hebdo_done(id, status){
 
 
 class SearchArticleEntry extends ArticleEntry {
-    constructor(iddiv, data) {
-        super(iddiv, data);
+    constructor(iddiv, data, manager) {
+        super(iddiv, data, manager);
         this.find(".menu-action-other").remove()
         var button = `
             <a type="button" class="btn  fond-color-1 color-4" title="Ajouter l'article de l'hebdo" data-on="add">
@@ -56,7 +56,7 @@ class SearchArticleEntry extends ArticleEntry {
         })
     }
 
-    set_hebdo_state(n){
+    set_hebdo_state(e, evt, n){
         var self=this;
         API.article_set(this.data.id, "pub_hebdo", n, function(d){
             var drop = $("#dropdown_hebdo_status_"+self.data.id+"_value")
@@ -71,8 +71,8 @@ class SearchArticleEntry extends ArticleEntry {
 }
 
 class HebdoArticleEntry extends ArticleEntry {
-    constructor(iddiv, data) {
-        super(iddiv, data);
+    constructor(iddiv, data, manager) {
+        super(iddiv, data, manager);
         this.find(".menu-action-other").remove()
         this.find(".badge_hebdo").remove()
         var button = `
@@ -177,10 +177,10 @@ class _HebdoForm extends DataBind {
         $("#prop_words").html(data.word_count);
         update_art = !array_cmp(data.articles, this.data.articles);
         this.setData(data);
-        this.update_articles();
+        this.refresh_article();
     }
 
-    update_articles(){
+    refresh_article(){
         var self = this;
         var query ={
             ids: this.data.articles,

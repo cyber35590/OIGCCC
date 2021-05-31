@@ -1,6 +1,6 @@
 import re
 import time
-
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpRequest, HttpResponseBadRequest, JsonResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, render
 from datetime import datetime, date
@@ -108,6 +108,12 @@ def jsonresponse(data, code=200, appcode=0, msg="Success"):
     return x
 
 @csrf_exempt
+def api_article_new(request):
+    article = default_article()
+    return jsonresponse(article.dict())
+
+
+@csrf_exempt
 def api_modify_article(request, id):
     if request.method == 'GET':
         obj = get_object_or_404(Article, pk=id)
@@ -157,11 +163,18 @@ def api_articles_batch(request):
 def api_article_set(request : HttpRequest, id : int, key : str, val : str):
         obj = get_object_or_404(Article, pk=id)
         val = autocast(val)
+        is_latest=obj.latest
         if key=="delete":
             if val=="article":
                 sql_execute("delete from base_article where articleid=%d"%obj.articleid)
             else:
+                count = sql_value("select count(*) from base_article where articleid=%d"%obj.articleid)
                 sql_execute("delete from base_article where id=%d"%obj.id)
+                if is_latest and count > 1:
+                    max = Article.objects.raw("select id, max(id) from base_article where articleid=%d"%obj.articleid)
+                    max = max[0]
+                    max.latest=True
+                    max.save()
 
         else:
             if key in ["date_creation", "date_modification"]:
@@ -242,6 +255,20 @@ def api_hebdo_add_article(request : HttpRequest, id : int, article: int):
 
 
 @csrf_exempt
+def api_hebdo_update_article(request : HttpRequest, id : int, article: int):
+    hebdo = get_object_or_404(Hebdo, pk=id)
+    old_art = get_object_or_404(Article, pk=article)
+    if old_art.latest:
+        return jsonresponse(old_art.dict(), code=304, appcode=304, msg="L'article est déjà à jour")
+    new_art = Article.objects.raw("select * from base_article where articleid=%d and latest"%old_art.articleid)
+    new_art = new_art[0]
+    hebdo.articles.remove(old_art)
+    hebdo.articles.add(new_art)
+    hebdo.update_meta()
+    hebdo.save()
+    return jsonresponse(new_art.dict())
+
+@csrf_exempt
 def api_hebdo_add_batch(request : HttpRequest, id : int):
     hebdo = get_object_or_404(Hebdo, pk=id)
     to_add = Article.objects.filter(id__in=json.loads(request.body))
@@ -285,12 +312,14 @@ def api_hebdo_maquette_new(request : HttpRequest, id : int):
     return jsonresponse(maq.dict())
 
 
+
 @csrf_exempt
 def api_hebdo_maquette(request : HttpRequest, id : int, mid : int):
     maq = get_object_or_404(Maquette, pk=mid)
     if request.method=="GET":
         return jsonresponse(maq.dict())
     if request.method=="POST":
+
         maq.set(json.loads(request.body))
         maq.save()
         return jsonresponse(maq.dict())

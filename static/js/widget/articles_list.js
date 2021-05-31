@@ -2,10 +2,11 @@
 
 
 class EntryBase extends DataBind {
-    constructor(iddiv, data){
+    constructor(iddiv, data, manager){
         super(iddiv);
         this.data=data
         this.id=data.id
+        this.manager=manager
     }
 
     show(){
@@ -29,8 +30,8 @@ class EntryBase extends DataBind {
 
 
 class ArticleEntry extends EntryBase {
-    constructor(iddiv, data){
-        super(iddiv, data);
+    constructor(iddiv, data, manager){
+        super(iddiv, data, manager);
     }
 
     show_info(){
@@ -73,7 +74,7 @@ class ArticleEntry extends EntryBase {
         })
     }
 
-    set_prio(n){
+    set_prio(e, evt, n){
         var self=this;
         API.article_set(this.data.id, "priorite", n, function(d){
             var drop = $("#dropdown_priorite_"+self.data.id+"_value")
@@ -115,8 +116,9 @@ function article_set(id, key, val){
 }
 
 class EntryManager{
-    constructor(rootid, classe=ArticleEntry){
+    constructor(rootid, classe=ArticleEntry, args=[]){
         this.root=$("#"+rootid)
+        this.constructor_args=args
         this.rootid=rootid;
         this.children={}
         this.prefix=Utils.newid(5)
@@ -143,7 +145,7 @@ class EntryManager{
             Template.append(this.root, data, "template-article-entry")
             $("#template-article-entry-root").attr("id", iddiv)
        }
-        this.children[data.id] = new this.child_classe(iddiv, data)
+        this.children[data.id] = new this.child_classe(iddiv, data, this, ...this.constructor_args)
     }
 
     remove(id){
@@ -187,8 +189,8 @@ class EntryManager{
 }
 
 class ArticleEntryManager extends EntryManager{
-    constructor(rootid, classe=ArticleEntry){
-        super(rootid, classe)
+    constructor(rootid, classe=ArticleEntry, args=[]){
+        super(rootid, classe, args)
     }
 
     adapt(data){
@@ -210,7 +212,5 @@ class ArticleEntryManager extends EntryManager{
         data.pub_fb_text=tmp[data.pub_fb]
         data.priorite_str=Priorite.to_str(data.priorite)
         data.priorite_classe=Priorite.to_class(data.priorite)
-
-
     }
 }

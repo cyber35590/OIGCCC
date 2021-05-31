@@ -9,18 +9,26 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+from django.core.management.utils import get_random_secret_key
 from pathlib import Path
-
+from os import path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(ch2r3=!vg6$m)cgorsns)b-5n)h*soyymn6ib1!q29lg0-_%c'
+SECRET_KEY_PATH = BASE_DIR / "key"
+
+
+if not path.exists(SECRET_KEY_PATH):
+    with open(SECRET_KEY_PATH, "w") as f:
+        f.write(get_random_secret_key())
+
+with open(SECRET_KEY_PATH, "r") as f:
+    SECRET_KEY = f.read()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

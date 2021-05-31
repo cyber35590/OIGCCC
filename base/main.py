@@ -19,7 +19,5 @@ with open("/home/fanch/Programmation/oigcc/static/hebdo/css/hebdo.css") as f:
     css = f.read()
 
 font_config = FontConfiguration()
-wp = HTML(string=html, base_url="http://localhost:8000/")
-css = CSS(string=css)
-
+wp = HTML(url="http://localhost:8000/hebdo/1/maquette/236/html", base_url="http://localhost:8000/")
 result = wp.write_pdf(target="mypdf.pdf")

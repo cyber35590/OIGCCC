@@ -1,0 +1,147 @@
+{% extends "template.html" %}
+
+
+{% block title %} Modification article "{{data.titre}}" (version {{data.revision}}) {% endblock %}
+
+{% block css %}
+<link href="/static/hebdo/css/hebdo_gen.css" rel="stylesheet"  data-include="">
+
+<link href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet">
+<link href="/static/hebdo/css/hebdo.css" rel="stylesheet"  data-include="">
+<link href="/static/hebdo/css/cartouche.css" rel="stylesheet"  data-include="">
+<link href="/static/hebdo/css/quatrieme.css" rel="stylesheet"  data-include="">
+<link href="/static/css/widget/articles_list.css" rel="stylesheet"  data-include="">
+
+<style>
+    body{
+        width: auto !important;
+        height: auto !important;
+        padding: auto !important;
+        font-size: auto;
+    }
+</style>
+{% endblock %}
+
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js"></script>
+<script src="/static/js/widget/articles_list.js" data-include=""></script>
+<script src="/static/js/widget/article.js" data-include=""></script>
+<script src="/static/hebdo/js/article.js" data-include=""></script>
+<script src="/static/hebdo/js/bar.js" data-include=""></script>
+<script src="/static/hebdo/js/colhandler.js" data-include=""></script>
+<script src="/static/hebdo/js/hebdo.js" data-include=""></script>
+<script>
+    var data_hebdo_str = '{{hebdo.json|escapejs}}';
+    var maquette_hebdo_str = '{{maquette.json|escapejs}}';
+    var data = {
+        hebdo: JSON.parse(data_hebdo_str),
+        maquette: JSON.parse(maquette_hebdo_str),
+        articles: JSON.parse('{{articles|escapejs}}')
+    };
+    data.maquette.placement=data.maquette.placement?(JSON.parse(data.maquette.placement)):{};
+    data.maquette.config_placement=data.maquette.config_placement?(JSON.parse(data.maquette.config_placement)):{};
+
+</script>
+
+
+{% endblock %}
+
+
+{% block content %}
+    {% include "hebdo/hebdo_templates.html" %}
+    {% include "ui/widget/articles_list_widget.html" %}
+    {% include "ui/widget/article_widget.html" %}
+
+    <ul class="dropdown-menu context-menu">
+      <li><a class="dropdown-item" data-on="edit">Éditer</a></li>
+      <li><a class="dropdown-item" data-on="update" id="context-menu-use-latest">Utiliser la dernière version</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" data-on="remove">Supprimer de l'hebdo</a></li>
+    </ul>
+
+    <div class="modal" tabindex="-1" role="dialog"  id="article-modal">
+        <div class="modal-dialog large-modal " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title">Editer un article</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div data-template="widget-article"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="ArticleForm.editArticle()">Sélectionner</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog"  id="add-article-modal">
+      <div class="modal-dialog large-modal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title" >Ajouter un article </h1>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" >
+                {% include "ui/widget/recherche_article.html" %}
+                <div id="add-article-root"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog"  id="preview-modal">
+          <div class="modal-dialog large-modal" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title" >Ajouter un article </h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="iframe-preview-root" >
+
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+              </div>
+            </div>
+          </div>
+    </div>
+
+    <div class="app_root">
+        <div class="main-menu-bar">
+            <i class="material-icons menu-bar-item" data-on="save">save</i>
+            <i class="material-icons menu-bar-item" data-on="render('html')">preview</i>
+            <i class="material-icons menu-bar-item" data-on="render('pdf')">picture_as_pdf</i>
+        </div>
+        <div class="hebdo_visualizer">
+            <div class="hebdo_root"></div>
+        </div>
+        <div class="sep"></div>
+        <div class="option_pane">
+            <div class="available-menu-bar">
+                <i class="material-icons menu-bar-item" data-on="create" title="Créer un nouvel article et l'ajouter">article</i>
+                <i class="material-icons menu-bar-item" data-on="add" title="Ajouter un article existant">add</i>
+                <i class="material-icons menu-bar-item" data-on="update_all" title="Prendre la dernière version de chaque article">upgrade</i>
+                <input class="menu-bar-item available-filter" data-on="filter" type="text" placeholder="Filtrer">
+                <i class="material-icons menu-bar-item" data-on="clear_filter" title="Supprimer les filtres">clear</i>
+
+            </div>
+            <div class="article_list"></div>
+        </div>
+    </div>
+{% endblock %}
+
+

@@ -156,7 +156,6 @@ function parse_callback(text){
     var outargs=[]
     var name = __ident_re.exec(text);
     var args = __params_re.exec(text);
-    console.log(text, name, args)
     if(name && name.length) name=name[0]
     if(args && args.length) args=args[0];
     if(args) outargs=eval("["+args.substr(1,args.length-2)+"]")
@@ -191,7 +190,8 @@ class DataBind {
         this.__cb_callbacks={}
         this.__if_cb={}
         this.__callbacks_list=[]
-        this._root=$("#"+this.__id)
+        if(typeof this.__id == "string") this._root=$("#"+this.__id)
+        else this._root=this.__id
         this.pre_init()
         this._updateBind()
         this._set_if_cb()
@@ -426,12 +426,11 @@ class DataBind {
 
     _bindOn(e, evt=null, suffix){
         var self = this
-        evt=this.__find_evt(e, event)
+        evt=this.__find_evt(e, evt)
         this.on(e, evt, "on" ,function(){
             var cb = parse_callback(e.data("on"+suffix))
-            console.log(e.data("on"+suffix)," -> ", cb)
             var root=self;
-            if(self[cb.name]) root[cb.name](...cb.args)
+            if(self[cb.name]) root[cb.name](e, evt, ...cb.args)
             else throw "La méthode '"+cb.name+"' est introuvable dans la classe '"+root.constructor.name+"'"
         })
     }
@@ -499,6 +498,7 @@ class DataBind {
         if(evt) return evt
         switch(tag){
             case "a":
+            case "i":
             case "button":
                 evt = "click"
             break;

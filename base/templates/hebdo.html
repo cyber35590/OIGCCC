@@ -4,7 +4,7 @@
 {% block title %} Hebdo {% endblock %}
 
 {% block css %}
-<link href="/static/css/article_widget.css" rel="stylesheet"  data-include="">
+<link href="/static/css/widget/articles_list.css" rel="stylesheet"  data-include="">
 <link href="/static/css/hebdo.css" rel="stylesheet"  data-include="">
 <style>
     .custom-control {
@@ -31,7 +31,7 @@
 
 
 {% block js %}
-<script src="/static/js/article_widget.js" data-include=""></script>
+<script src="/static/js/widget/articles_list.js" data-include=""></script>
 <script src="/static/js/hebdo.js" data-include=""></script>
 <script>
     var data_str = '{{data.json|escapejs}}';
@@ -40,7 +40,7 @@
 
 
 {% block content %}
-{% include "ui/widget/article_widget.html" %}
+{% include "ui/widget/articles_list_widget.html" %}
 
 <div class="modal" tabindex="-1" role="dialog"  id="add-article-modal">
   <div class="modal-dialog large-modal" role="document">

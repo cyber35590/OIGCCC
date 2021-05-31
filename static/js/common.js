@@ -32,6 +32,10 @@ function confirm(title, message, on_yes, on_no=null){
     $("#confirm-modal").modal("show")
 }
 
+function $$(html, data={}){
+    return $(Mustache.render(html, data))
+}
+
 function itof(x, f){
     var factor=Math.pow(10, f)
     return Math.ceil(x*factor)/factor
@@ -77,8 +81,7 @@ function toast_warning(html, duration=60000){
 
 
 function openInNewTab(url) {
-  var win = window.open(url, '_blank');
-  win.focus();
+  open(url, '_blank').focus();
 }
 
 class Loading {

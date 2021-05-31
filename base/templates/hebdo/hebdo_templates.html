@@ -1,3 +1,13 @@
+<template id="template-hebdo-article-entry" data-param="value=;id=;label=;name=;type=checkbox;cast=bool;text=">
+    <div class="row hebdo-article-entry">
+        <div class="col-sm-12">
+            <i class="hebdo-av-dates">À publier du <b>[[date_debut_texte]]</b> au <b>[[date_fin_texte]]</b></i>
+            <h3 class="hebdo-av-titre">[[^latest]]<i class="__remove material-icons warning-update">warning</i>[[/latest]][[titre]] </h3>
+            <h5 class="hebdo-av-sous-titre">[[sous_titre]]</h5>
+            <p class="hebdo-av-contenu">[[resume]]</p>
+        </div>
+    </div>
+</template>
 
 <!--
 {
@@ -22,9 +32,9 @@
 -->
 <template id="template-hebdo-article">
     <div class="article">
-        <h1>[[titre]]</h1>
-        <h2>[[sous_titre]]</h2>
-        <p>[[{contenu}]]</p>
+        <h1 class="hebdo-titre">[[^latest]]<i class="__remove material-icons warning-update">warning</i>[[/latest]][[titre]]</h1>
+        <h2 class="hebdo-sous-titre">[[sous_titre]]</h2>
+        <div class="hebdo-contenu">[[{contenu}]]</div>
     </div>
 </template>
 
@@ -97,6 +107,68 @@
     </div>
 </template>
 
+
+<template id="template-hebdo-mediatheque">
+    <div class="section-title"><center>[[titre]]</center></div>
+    <div class="section-content">
+        [[{contenu}]]
+        <table class="mediatheque-contact">
+            <tbody>
+                <tr>
+                    <td>
+                        <b>Médiathèque</b><br>
+                        02 99 64 01 86<br>
+                        mediatheque@ville-lhermitage.fr<br>
+                    </td>
+                    <td>
+                        <b>Cybercommune</b><br>
+                        02 99 78 64 88<br>
+                        cybercommune@ville-lhermitage.fr<br>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<template id="template-hebdo-menus">
+    <div class="section-title"><center>Menus</center></div>
+    <div class="section-content">
+        <table class="menus">
+            <tbody>
+                <tr><td colspan="2" rowspan="1" class="menus-head">Menu [[menus.dates]] </td></tr>
+                <tr><td><b>Lundi</b></td><td class="menu-lundi">[[{menus.lundi}]]</td></tr>
+                <tr><td><b>Mardi</b></td><td class="menu-mardi">[[{menus.mardi}]]</td></tr>
+                <tr><td><b>Mercredi</b></td><td class="menu-mercredi">[[{menus.mercredi}]]</td></tr>
+                <tr><td><b>Jeudi</b></td><td class="menu-jeudi">[[{menus.jeudi}]]</td></tr>
+                <tr> <td><b>Vendredi</b></td><td class="menu-vendredi">[[{menus.vendredi}]]</td> </tr>
+            </tbody>
+        </table>
+        <p class="section-menus-legende">
+        En raison des choix difficiles à effectuer, les enfants des écoles maternelles ont un menu unique imposé (Mets
+        soulignés) <b>VBF</b> : viande de bœuf d’origine française - <b>AB</b> : Aliments issus de l’Agriculture Biologique - <b>QS</b> : produit
+        de qualité supérieur - <b>APO</b> : Appellation d’Origine Contrôlée
+        </p>
+    </div>
+
+
+</template>
+
+<template id="template-hebdo-coup-coeur">
+    <img class="coeur" src="/static/hebdo/img/coeur.png" />
+    <div class="section-content">
+        <p>[[{contenu}]]</p>
+    </div>
+    <center><img class="jaquette" src="[[url]]" /></center>
+</template>
+
+<template id="template-hebdo-sudoku">
+    <div class="section-title"><center>Sudoku</center></div>
+    <div class="section-content">
+        <center><img class="jaquette" src="[[url]]" /></center>
+    </div>
+</template>
+
 <!--
 {
    url_sudoku: url de l'image du sudoku
@@ -124,24 +196,24 @@
         </div>
 
         <div class="section section-sudoku">
-            <div class="section-title"><center>Sudoku</center></div>
+            <!--<div class="section-title"><center>Sudoku</center></div>
             <div class="section-content">
                 <center><img class="jaquette" src="[[url_sudoku]]" /></center>
-            </div>
+            </div>-->
         </div>
 
         <div class="section section-coeur">
-            <img class="coeur" src="/static/hebdo/img/coeur.png" />
+            <!--<img class="coeur" src="/static/hebdo/img/coeur.png" />
             <div class="section-content">
                 <p>[[coup_de_coeur]]</p>
             </div>
-            <center><img class="jaquette" src="[[url_coeur]]" /></center>
+            <center><img class="jaquette" src="[[url_coeur]]" /></center>-->
         </div>
     </div>
 
     <div class="page-content">
         <div class="section section-mediatheque">
-            <div class="section-title"><center>Médiathèque</center></div>
+            <!--<div class="section-title"><center>Médiathèque</center></div>
             <div class="section-content">
                 <p>[[article_mediatheque]]</p>
                 <table class="mediatheque-contact">
@@ -160,14 +232,14 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </div>-->
         </div>
     </div>
 
     <div class="page-content">
-        <div class="section section-menu">
-            <div class="section-title"><center>Menus</center></div>
-            <div class="section-content">
+        <div class="section section-menus">
+            <!--<div class="section-title"><center>Menus</center></div>
+            <div class="section-content ">
                 <table class="menus">
                     <tbody>
                         <tr><td colspan="2" rowspan="1" class="menus-head">Menu [[menus.dates]] </td></tr>
@@ -181,7 +253,7 @@
                 En raison des choix difficiles à effectuer, les enfants des écoles maternelles ont un menu unique imposé (Mets
                 soulignés) <b>VBF</b> : viande de bœuf d’origine française - <b>AB</b> : Aliments issus de l’Agriculture Biologique - <b>QS</b> : produit
                 de qualité supérieur - <b>APO</b> : Appellation d’Origine Contrôlée
-            </div>
+            </div>-->
         </div>
         <div class="section section-mentions">
             <div class="section-title"><center>Publication</center></div>

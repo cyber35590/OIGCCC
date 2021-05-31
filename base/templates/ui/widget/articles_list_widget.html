@@ -1,0 +1,127 @@
+<template id="template-article-entry" data-param="value=;id=;label=;name=;type=checkbox;cast=bool;text=">
+    <div class="row article-entry" id="template-article-entry-root">
+        <div class="col-sm-8 article-content">
+            <a class="dropdown" id="dropdown_priorite_[[id]]">
+                <button class="btn btn-secondary dropdown-toggle [[priorite_classe]] dropdown-badge" type="button"
+                            id="dropdown_priorite_[[id]]_value"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    [[priorite_str]]
+                </button>
+                <div class="dropdown-menu  dropdown-badge-entry-root">
+                    <button class="dropdown-item dropdown-badge-entry theme-1" data-on="set_prio(Priorite.IMPERATIF)">Impératif</button>
+                    <button class="dropdown-item dropdown-badge-entry theme-3" data-on="set_prio(Priorite.IMPORTANT)">Important</button>
+                    <button class="dropdown-item dropdown-badge-entry theme-2" data-on="set_prio(Priorite.SECONDAIRE)">Secondaire</button>
+                </div>
+            </a>
+            <i>À publier du <b>[[date_debut_texte]]</b> au <b>[[date_fin_texte]]</b></i>
+            <h3>[[titre]]</h3>
+            <h5>[[sous_titre]]</h5>
+            [[resume]]
+        </div>
+        <div class="col-sm-4 article-info">
+            <div class="action-bar">
+                <a type="button" class="btn  fond-color-1 color-4" title="Informations sur l'article" data-on="show_info">
+                    <i class="material-icons selection-action" >info</i>
+                </a>
+                <a type="button" class="btn  fond-color-1 color-4" title="Aperçu de l'article" data-on="show_apercu">
+                    <i class="material-icons selection-action" >preview</i>
+                </a>
+                <a type="button" class="btn  fond-color-1 color-4" title="Modifier l'article" onclick="openInNewTab('/article/[[id]]')">
+                    <i class="material-icons selection-action" >edit</i>
+                </a>
+                <a class="dropdown menu-action-other">
+                  <button class="btn btn-secondary dropdown-toggle  fond-color-1" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Autres Actions
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <button class="dropdown-item [[archive_class]] archive" type="button" data-on="archive">Archiver</button>
+                    <button class="dropdown-item [[unarchive_class]] unarchive" type="button" data-on="unarchive">Désarchiver</button>
+                    <button class="dropdown-item" type="button" data-on="delete_revision">Supprimer la révision</button>
+                    <button class="dropdown-item" type="button" data-on="delete_article">Supprimer l'article</button>
+                  </div>
+                </a>
+            </div>
+
+          <div class="badge-done">
+              <span class="badge badge_done_[[pub_fb]] badge_fb" title="[[pub_fb_text]]">Facebook</span>
+              <span class="badge badge_done_[[pub_web]] badge_web" title="[[pub_web_text]]">Site Web</span>
+              <span class="badge badge_done_[[pub_hebdo]] badge_hebdo" title="[[pub_hebdo_text]]">Hebdo</span>
+              <span class="badge badge_done_[[pub_pp]] badge_pp" title="[[pub_pp_text]]">Panneau Pocket</span>
+              <span class="badge badge_done_[[pub_panneau]] badge_panneau" title="[[pub_panneau_text]]">Panneau</span>
+          </div>
+        </div>
+    </div>
+</template>
+
+
+<div class="modal" tabindex="-1" role="dialog"  id="apercu-modal">
+  <div class="modal-dialog large-modal" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Aperçu</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+      </div>
+        <h1 id="modal_apercu_titre"></h1>
+        <h2 id="modal_apercu_sous_titre"></h2>
+        <div id="modal_apercu_contenu"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="info-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"  id="alert-title">Informations</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"  id="alert-content">
+      </div>
+        <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col"><b>Propriété</b></th>
+                        <th scope="col"><b>Valeur</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Date de création</b></td>
+                        <td id="article_list_info_date_creation"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Date de modification</b></td>
+                        <td id="article_list_info_date_modification"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Identifiant unique de révision</b></td>
+                        <td id="article_list_info_id"></td>
+                    </tr>
+                    <tr>
+                        <td><b>N° de révision</b></td>
+                        <td id="article_list_info_revision"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Nombre de caractères</b></td>
+                        <td id="article_list_info_char_count"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Nombre de mots</b></td>
+                        <td id="article_list_info_word_count"></td>
+                    </tr>
+                </tbody>
+            </table>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
